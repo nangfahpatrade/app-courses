@@ -1,0 +1,354 @@
+{
+  "welcome": "Welcome ss",
+  "description": "This is your homepage in English",
+
+  "NavbarLinks": {
+    "home": "Home",
+    "course": "Courses",
+    "broker": "Broker",
+    "ebook": "Ebook",
+    "about": "About",
+    "portfolio": "Portfolio",
+    "activity": "Activity",
+    "bycourse": "How to Buy",
+    "contact": "Contact"
+  },
+
+  "btn_login": {
+    "login": "Login"
+  },
+
+  "HomePage": {
+    "banner": {
+      "title_1": "Trading Course",
+      "title_2": "To Professional Traders"
+    },
+    "section_1": {
+      "left": {
+        "title_1": "Step",
+        "title_2": "Providing Services",
+        "dec": "Providing online trading courses for members with a personalized learning experience focused on courses of interest and paying per volume for support. Start learning right away without instructional videos and chapter homes to provide knowledge based on specified content."
+      },
+      "right": {
+        "title_1": "Learn to trade online with...",
+        "title_2": "Nang Fah Pa Trade"
+      },
+      "results": [
+        {
+          "id": 0,
+          "title": "Register",
+          "dec": "Sign up to register for a course",
+          "icon": "/icon-create-account.svg"
+        },
+        {
+          "id": 1,
+          "title": "Select a course",
+          "dec": "Choose the course according to your needs",
+          "icon": "/icon-select.svg"
+        },
+        {
+          "id": 2,
+          "title": "Make payment",
+          "dec": "Payment via automatic system",
+          "icon": "/icon-payment.svg"
+        },
+        {
+          "id": 3,
+          "title": "View the course",
+          "dec": "The course is valid for 1 year from the date of application.",
+          "icon": "/icon-play.svg"
+        },
+        {
+          "id": 4,
+          "title": "Take the test",
+          "dec": "Take the post-lesson test. The teacher will grade it.",
+          "icon": "/icon-test.svg"
+        }
+      ]
+    },
+    "section_2": {
+      "title": "What can you learn to trade with us?",
+      "result_1": {
+        "title": "Know the gold news",
+        "dec": "Read news about gold patterns, news trading and news scoop trading."
+      },
+      "result_2": {
+        "title": "End-of-the-pipe graph technique",
+        "dec": "Learn the tip chart technique that will make you trade with precision."
+      },
+      "result_3": {
+        "title": "Accurate TP, SL points",
+        "dec": "Know the technique to analyze TP, SL points accurately."
+      },
+      "result_4": {
+        "title": "Support-Resistance Analysis",
+        "dec": "Analyze accurate support-resistance points so you don't miss any orders."
+      },
+      "result_5": {
+        "title": "Reading candlesticks/chart bars",
+        "dec": "Reading Candlesticks/Chart Bars: Important Symbols in Trading"
+      },
+      "result_6": {
+        "title": "30 Trading Techniques",
+        "dec": "Teach gold trading techniques, short - long, more than 30 techniques."
+      }
+    },
+    "section_3": {
+      "title": "Latest news and activities"
+    },
+    "section_4": {
+      "title": "Why is it good to learn to trade with us?",
+      "result_1": {
+        "title": "Share knowledge about trading, try learning for free",
+        "dec": "Nang Fah Pa Trade provides knowledge about trading. There are also free trial courses."
+      },
+      "result_2": {
+        "title": "The course can be viewed for up to 1 year and can be studied on any device.",
+        "dec": "The course can be viewed for up to 1 year and can be studied on any device."
+      },
+      "result_3": {
+        "title": "There are staff ready to provide assistance through many channels.",
+        "dec": "If you have any questions or problems, you can report the problem via chat or phone 24 hours a day."
+      }
+    },
+    "section_5": {
+      "title": "If you don't start, your whole life will be the same...",
+      "dec_1": "Interested in registering ",
+      "dec_2": "Trading courses in both knowledge and mind control",
+      "button": "Register"
+    },
+    "section_6": {
+      "title": "Frequently asked questions about online trading courses",
+      "results": [
+        {
+          "id": 0,
+          "title": "Are online trading courses suitable for those who have no basic knowledge ?",
+          "dec": "Many online trading courses are designed to get you started with no prior knowledge, teaching you everything from the basics of trading, market analysis, to using trading tools. There are also advanced courses for those with more experience."
+        },
+        {
+          "id": 1,
+          "title": "After completing the course, will I be able to trade on my own immediately ?",
+          "dec": "By the end of the online trading course, learners will have the basic knowledge needed to start trading. However, practice is key. Trying out demo accounts or starting with small amounts will help you build your trading skills and experience."
+        },
+        {
+          "id": 2,
+          "title": "Are there any certifications for online trading courses ?",
+          "dec": "Some online trading courses will offer a certificate upon completion of the course, which can serve as proof of your trading knowledge and ability. This certificate can be helpful in building credibility when applying for jobs or starting to trade seriously."
+        }
+      ]
+    },
+    "section_7": {
+      "address": "998/5, Moo 7, Muang Kao Sub-district, Mueang District, Khon Kaen 40000, Thailand",
+      "results": {
+        "course": "All courses",
+        "broker": "Broker",
+        "ebook": "Ebook",
+        "about": "About",
+        "portfolio": "Portfolio",
+        "activity": "Activity",
+        "bycourse": "How to buy a course",
+        "contact": "Contact",
+        "howToBuy": "How to purchase a course",
+        "nayobuy": "Privacy Policy"
+      },
+      "btn_text": "For further inquiries"
+    }
+  },
+
+  "CoursesPage": {
+    "title_1": "Courses",
+    "title_2": "all",
+    "dec_1": "Search results",
+    "dec_2": "Course",
+    "left": {
+      "title_1": "New Course",
+      "title_2": "All Courses",
+      "title_3": "Course Filter",
+      "title_4": "Clean the filter",
+      "title_5": "Price",
+      "title_6": "Low-to-high prices",
+      "title_7": "Price high-low",
+      "title_8": "Category"
+    }
+  },
+
+  "BrokerPage": {
+    "section_1": {
+      "title": "Subscribe to professional trading tools HFM",
+      "item_1": "Leverage 1:2000",
+      "item_2": "Super fast execution",
+      "item_3": "No swap fees",
+      "btn_1": "Apply for broker",
+      "btn_2": "All courses"
+    },
+    "section_2": {
+      "title": "HFM (HotForex Markets) is an online trading broker",
+      "dec": "Offering trading services in various assets such as Forex, commodities, indices, stocks, and cryptocurrencies, this broker is popular among investors all over the world.",
+      "results": [
+        {
+          "id": 0,
+          "title": "Why choose to trade with HFM ?",
+          "dec": "There are many outstanding features that make investors choose to use the service. It is suitable for both beginners and professional traders. In addition, there is professional customer support 24 hours a day.",
+          "item_1": "Low fees, high leverage",
+          "item_2": "Updated with modern trading tools",
+          "item_3": "Risk management tools, prevent losses",
+          "link_text": "Home page"
+        },
+        {
+          "id": 1,
+          "title": "Recommended Trading Techniques and Strategies for Beginners",
+          "dec": "There are online courses that help new investors learn professional trading strategies, chart analysis techniques and market trend forecasting.",
+          "item_1": "There are lessons to help new investors learn basic trading strategies.",
+          "item_2": "Trade on multiple platforms, such as Forex currency pairs, foreign stock indices, etc.",
+          "item_3": "Provides investors with a wide range of options to generate profits.",
+          "link_text": "All courses"
+        }
+      ]
+    }
+  },
+
+  "EbookPage": {
+    "title": "Enhance your learning potential with Ebooks and trading courses.",
+    "dec": "Getting started can be difficult, which is why Ebooks and trading courses are an easily accessible source of knowledge that can help you make money effectively for those with knowledge and understanding of the market."
+  },
+
+  "AboutPage": {
+    "section_1": {
+      "small": "Teach new traders to become professionals.",
+      "title": "Angel Trade teaches online trading.",
+      "dec": "Nangfa Phatrade Company has been open for 3 years and operates in the field of teaching gold trading. There are many teaching courses, such as face-to-face teaching, online teaching, seminars, and a university-style teaching website. The purpose of this is to make it convenient for everyone who comes to learn, whether they already have a basic understanding of trading or have no basic understanding of trading at all.",
+      "button": "All courses",
+      "item_1": {
+        "title": "Introducing online trading",
+        "dec": "For those who want to improve their trading skills"
+      },
+      "item_2": {
+        "title": "Trading strategies used by professionals",
+        "dec": "Efficiently supported by trading experts"
+      }
+    },
+    "section_2": {
+      "small": "Teach online trading from zero to Hero.",
+      "title": "Advantages of learning to trade online with Nangfatrade",
+      "results": [
+        {
+          "id": 0,
+          "title": "Trading Basics for Beginners",
+          "dec": "Introduction to online trading and various types of investments such as Forex, Stocks, and Cryptocurrencies to understand the basics before starting to trade."
+        },
+        {
+          "id": 1,
+          "title_1": "Technical Analysis",
+          "dec_1": "Teaches technical analysis to read price charts, including using various tools and indicators, and fundamental analysis to assess the value of assets.",
+          "title_2": "Risk management and investment planning",
+          "dec_2": "Learn how to manage trading risks to prevent losses and plan your investments systematically to increase your chances of making profits."
+        },
+        {
+          "id": 2,
+          "title": "Use online trading platforms",
+          "dec": "Recommend how to use trading platforms such as MetaTrader or TradingView and various additional tools to help in making investment decisions."
+        }
+      ]
+    }
+  },
+
+  "PortfolioPage": {
+    "btn_1": "Seminar",
+    "btn_2": "Review",
+    "title_1": "Activity",
+    "title_2": "All",
+    "dec_1": "Search results",
+    "dec_2": "activity"
+  },
+  "ActivityPage": {
+    "title_1": "Activity",
+    "title_2": "All",
+    "dec_1": "Search results",
+    "dec_2": "activity"
+  },
+
+  "BycoursePage": {
+    "section_1": {
+      "title": "How to buy a course in 5 minutes",
+      "dec": "Buying online trading courses with QR Code is a convenient and fast way, especially in this era of rapid technological advancement. Here are some easy steps to buy courses with QR Code PromptPay.",
+      "button": "Choose to buy a course",
+      "item_1": "Scan QR Code and pay.",
+      "item_2": "Send the slip. The system will check it automatically",
+      "item_3": "Watch the online course for a full 1 year."
+    },
+    "section_2": {
+      "results": [
+        {
+          "id": 0,
+          "title": "Login / Register or enter via OTP",
+          "icon": "VscWand",
+          "dec": "Sign up and log in to the system. You can log in via OTP, which will be sent to your email, making login easier and more secure.",
+          "button": "Login / Register",
+          "link": "/login" , 
+          "status_locale" : false
+        },
+        {
+          "id": 1,
+          "title": "Select the desired course. Click to buy the course",
+          "icon": "VscGraphLine",
+          "dec": "Once logged in, you can go to the All Courses page and select the desired course. There are details to view before purchasing the course.",
+          "button": "All courses",
+          "link": "/home/course",
+          "status_locale" : true
+        },
+        {
+          "id": 2,
+          "title": "Scan QR CODE to pay from our system",
+          "icon": "VscServerEnvironment",
+          "dec": "Once you have selected a course, click on the course you want to order. You will see the order menu. When you click on it, you will see a QR Code for payment.",
+          "button": "All courses",
+          "link": "/home/course",
+          "status_locale" : true
+        },
+        {
+          "id": 3,
+          "title": "Attach the transfer slip and receive the course immediately",
+          "icon": "VscVmRunning",
+          "dec": "After completing the payment, please attach the slip to the system. It is located below the QR Code. We have a slip verification system that is 100% secure and accurate. ",
+          "button": "All courses",
+          "link": "/home/course",
+          "status_locale" : true
+        }
+      ]
+    }
+  },
+
+  "ContactPage": {
+    "left": {
+      "title": "Contact us",
+      "card": {
+        "title": "Send us a message",
+        "input_1": "Name",
+        "input_2": "Phone",
+        "input_3": "Details",
+        "button": "Send "
+      }
+    },
+    "right": {
+      "title": "NANG FAH PHATRED CO., LTD.",
+      "dec": "Focuses on providing knowledge about market analysis, use of financial tools and risk management for becoming a professional trader.",
+      "card_1": {
+        "title": "Address",
+        "dec": "998/5, Moo 7, Muang Kao Sub-district, Mueang District, Khon Kaen 40000, Thailand"
+      },
+      "card_2": {
+        "title": "phone number",
+        "dec": "094 992 6280"
+      },
+      "card_3": {
+        "title": "Business hours",
+        "dec": "You can attend online classes 24 hours a day."
+      },
+      "card_4": {
+        "title": "@nangfahpatrade",
+        "dec": "Contact us for inquiries. An admin is available to provide advice."
+      }
+    }
+  }
+
+}

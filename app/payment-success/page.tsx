@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import axios from 'axios';
-import { decryptData } from '../utils/tools';
+import { authToken, decryptData } from '../utils/tools';
 import { Button } from '@material-tailwind/react';
 
 
@@ -27,7 +27,7 @@ export default function PaymentSuccessPage() {
             const payload = { productId: productId, userId: userId };
             try {
 
-                const token = decryptData(localStorage.getItem("Token") || "");
+                const token = await authToken();
 
                 const res = await axios.post(
                     `${process.env.NEXT_PUBLIC_API}/api/pay/check-befor-pay`,

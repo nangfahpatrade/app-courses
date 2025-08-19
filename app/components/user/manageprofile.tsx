@@ -13,6 +13,7 @@ import { HeaderAPI } from "@/headerApi";
 import { useEffect, useCallback, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { authToken } from "@/app/utils/tools";
 
 interface Profile {
   id: number;
@@ -29,21 +30,13 @@ export default function ManageProfile() {
   const [userProfile, setUserProfile] = useState<Profile | null>(null);
   const router = useRouter();
 
-  const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
-
-  const decryptData = (ciphertext: string) => {
-    const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
-    return bytes.toString(CryptoJS.enc.Utf8);
-  };
-
-  const userId = decryptData(localStorage.getItem("Id") || "");
 
   const getProfile = useCallback(async () => {
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_API}/api/login/user/${userId}`,
+        `${process.env.NEXT_PUBLIC_API}/api/login/user`,
         {
-          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+          ...HeaderAPI(await authToken()),
         }
       );
       if (res.status === 200) {
@@ -55,7 +48,7 @@ export default function ManageProfile() {
       const error = err as { response: { data: { message: string } } };
       toast.error(error.response.data.message);
     }
-  }, [userId]);
+  }, [authToken]);
 
   useEffect(() => {
     getProfile();
@@ -92,17 +85,11 @@ export default function ManageProfile() {
           `${process.env.NEXT_PUBLIC_API}/api/login/user`,
           data,
           {
-            ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+            ...HeaderAPI(await authToken()),
           }
         );
         if (res.status === 200) {
           toast.success(res.data.message);
-          if (res.data.statusPassword === 1) {
-            router.push("/home");
-            localStorage.clear();
-          }
-        } else {
-          toast.error("Error updating profile");
         }
       } catch (err) {
         const error = err as { response: { data: { message: string } } };

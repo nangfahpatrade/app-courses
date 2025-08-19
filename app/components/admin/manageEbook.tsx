@@ -20,6 +20,7 @@ import { VscNotebook } from "react-icons/vsc";
 import Swal from "sweetalert2";
 import Image from "next/image";
 import CryptoJS from "crypto-js";
+import { authToken } from "@/app/utils/tools";
 
 interface ReviewFormData {
   id: number;
@@ -55,13 +56,6 @@ const ManageEbook: React.FC = () => {
   const [coverFile, setCoverFile] = useState<File | null>(null);
   const [dataEdit, setDataEdit] = useState<ReviewFormData | null>(null);
 
-  const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
-
-  const decryptData = (ciphertext: string) => {
-    const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
-    return bytes.toString(CryptoJS.enc.Utf8);
-  };
-
   const fetchEbook = useCallback(async () => {
     const requestData = {
       page,
@@ -72,7 +66,7 @@ const ManageEbook: React.FC = () => {
         `${process.env.NEXT_PUBLIC_API}/api/ebook`,
         requestData,
         {
-          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+          ...HeaderAPI(await authToken()),
         }
       );
       console.log(res.data);
@@ -171,7 +165,7 @@ const ManageEbook: React.FC = () => {
         `${process.env.NEXT_PUBLIC_API}/api/ebook/add`,
         formDataToSend,
         {
-          ...HeaderMultiAPI(decryptData(localStorage.getItem("Token") || "")),
+          ...HeaderMultiAPI(await authToken()),
         }
       );
       if (res.status === 200) {
@@ -204,15 +198,16 @@ const ManageEbook: React.FC = () => {
       formDataToSend.append("cover", coverFile);
     } else {
       formDataToSend.append("cover", "");
-      formDataToSend.append("old_image", formData.image_title);
     }
+    formDataToSend.append("old_image", formData.image_title);
+
     try {
       logFormData(formDataToSend);
       const res = await axios.put(
         `${process.env.NEXT_PUBLIC_API}/api/ebook`,
         formDataToSend,
         {
-          ...HeaderMultiAPI(decryptData(localStorage.getItem("Token") || "")),
+          ...HeaderMultiAPI(await authToken()),
         }
       );
       if (res.status === 200) {
@@ -225,7 +220,7 @@ const ManageEbook: React.FC = () => {
       }
     } catch (err) {
       const error = err as { response: { data: { message: string } } };
-      toast.error(error.response.data.message);
+      toast.error(error?.response?.data?.message);
     }
   };
 
@@ -245,7 +240,7 @@ const ManageEbook: React.FC = () => {
           const res = await axios.delete(
             `${process.env.NEXT_PUBLIC_API}/api/ebook/${item.id}`,
             {
-              ...HeaderMultiAPI(decryptData(localStorage.getItem("Token") || "")),
+              ...HeaderMultiAPI(await authToken()),
             }
           );
           if (res.status === 200) {
@@ -440,7 +435,7 @@ const ManageEbook: React.FC = () => {
                   </tr>
                 ) : (
                   data?.data?.map((item, index) => (
-                    <tr key={item.id} style={{ marginTop: "3px" }}  className="hover:bg-purple-100/20">
+                    <tr key={item.id} style={{ marginTop: "3px" }} className="hover:bg-purple-100/20">
                       <td className="py-2">
                         <div className="flex items-center justify-center">
                           <Typography
@@ -475,19 +470,19 @@ const ManageEbook: React.FC = () => {
                         </div>
                       </td>
                       <td className="px-2 py-2 text-left max-w-[300px] lg:max-w-[500px]">
-                      <div
-                        className="text-blue-gray-700 font-normal break-words whitespace-pre-wrap overflow-hidden"
-                        style={{
-                          display: "-webkit-box",
-                          WebkitLineClamp: 1, // กำหนดจำนวนบรรทัดที่ต้องการแสดงก่อนตัดคำ
-                          WebkitBoxOrient: "vertical",
-                          overflow: "hidden",
-                          textOverflow: "ellipsis",
-                        }}
-                      >
-                        {item?.dec}
-                      </div>
-                    </td>
+                        <div
+                          className="text-blue-gray-700 font-normal break-words whitespace-pre-wrap overflow-hidden"
+                          style={{
+                            display: "-webkit-box",
+                            WebkitLineClamp: 1, // กำหนดจำนวนบรรทัดที่ต้องการแสดงก่อนตัดคำ
+                            WebkitBoxOrient: "vertical",
+                            overflow: "hidden",
+                            textOverflow: "ellipsis",
+                          }}
+                        >
+                          {item?.dec}
+                        </div>
+                      </td>
                       <td>
                         <div className="flex items-center justify-center">
                           <Typography
@@ -524,32 +519,30 @@ const ManageEbook: React.FC = () => {
               </tbody>
             </table>
           </div>
-            <div className="flex justify-end gap-2 mt-6 px-2 items-center">
-              <button
-                className={`text-gray-400 text-2xl whitespace-nowrap rounded-md border border-gray-300 shadow-md ${
-                  page == 1 ? "" : "hover:text-black"
+          <div className="flex justify-end gap-2 mt-6 px-2 items-center">
+            <button
+              className={`text-gray-400 text-2xl whitespace-nowrap rounded-md border border-gray-300 shadow-md ${page == 1 ? "" : "hover:text-black"
                 }`}
-                disabled={page == 1}
-                onClick={() => setPage((page) => Math.max(page - 1, 1))}
-              >
-                <IoIosArrowBack />
-              </button>
-              <span style={{ whiteSpace: "nowrap" }} className="text-sm">
-                หน้าที่ {page} / {data?.totalPages || 1}{" "}
-              </span>
-              <button
-                className={`text-gray-400 text-2xl whitespace-nowrap rounded-md border border-gray-300 shadow-md
-                  ${
-                    Number(data?.totalPages) - Number(page) < 1
-                      ? ""
-                      : "hover:text-black"
-                  }`}
-                disabled={Number(data?.totalPages) - Number(page) < 1}
-                onClick={() => setPage((page) => page + 1)}
-              >
-                <IoIosArrowForward />
-              </button>
-            </div>
+              disabled={page == 1}
+              onClick={() => setPage((page) => Math.max(page - 1, 1))}
+            >
+              <IoIosArrowBack />
+            </button>
+            <span style={{ whiteSpace: "nowrap" }} className="text-sm">
+              หน้าที่ {page} / {data?.totalPages || 1}{" "}
+            </span>
+            <button
+              className={`text-gray-400 text-2xl whitespace-nowrap rounded-md border border-gray-300 shadow-md
+                  ${Number(data?.totalPages) - Number(page) < 1
+                  ? ""
+                  : "hover:text-black"
+                }`}
+              disabled={Number(data?.totalPages) - Number(page) < 1}
+              onClick={() => setPage((page) => page + 1)}
+            >
+              <IoIosArrowForward />
+            </button>
+          </div>
         </Card>
       </div>
     </div>

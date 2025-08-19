@@ -21,6 +21,8 @@ import Swal from "sweetalert2";
 import Image from "next/image";
 import AddEditModalReview from "./addEditModalReview";
 import CryptoJS from "crypto-js";
+import { authToken } from "@/app/utils/tools";
+import { ErrorAlert } from "@/app/utils/apiConfig";
 
 interface ReviewFormData {
   id: number;
@@ -67,12 +69,6 @@ const ManageReviews: React.FC = () => {
     { id: number; image: string }[]
   >([]);
 
-  const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
-
-  const decryptData = (ciphertext: string) => {
-    const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
-    return bytes.toString(CryptoJS.enc.Utf8);
-  };
 
   // ฟังก์ชันสำหรับตัดข้อความ
   const truncate = (text: string, maxLength: number = 50): string => {
@@ -90,7 +86,7 @@ const ManageReviews: React.FC = () => {
         `${process.env.NEXT_PUBLIC_API}/api/reviews`,
         requestData,
         {
-          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+          ...HeaderAPI(await authToken()),
         }
       );
       console.log(res.data);
@@ -129,7 +125,7 @@ const ManageReviews: React.FC = () => {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API}/api/reviews/images/${item.id}`,
         {
-          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+          ...HeaderAPI(await authToken()),
         }
       );
       console.log(res.data);
@@ -165,7 +161,7 @@ const ManageReviews: React.FC = () => {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -196,11 +192,7 @@ const ManageReviews: React.FC = () => {
       if (coverFile) {
         updateData.append("cover", coverFile);
       }
-      // updateData.append("cover", coverFile? coverFile : dataEdit?.image_title  );
 
-      // for (let i = 0; i < albumFiles.length; i++) {
-      //   updateData.append("album", albumFiles[i]);
-      // }
 
       for (let i = 0; i < albumFiles.length; i++) {
         updateData.append("album", albumFiles[i]);
@@ -217,7 +209,7 @@ const ManageReviews: React.FC = () => {
           `${process.env.NEXT_PUBLIC_API}/api/reviews`,
           updateData,
           {
-            ...HeaderMultiAPI(decryptData(localStorage.getItem("Token") || "")),
+            ...HeaderMultiAPI(await authToken()),
           }
         );
         console.log(res);
@@ -230,9 +222,10 @@ const ManageReviews: React.FC = () => {
           toast.error("เกิดข้อผิดพลาด");
         }
       } catch (err) {
-        console.log(err);
-        const error = err as { response: { data: { message: string } } };
-        toast.error(error.response.data.message);
+        // console.log(err);
+        // const error = err as { response: { data: { message: string } } };
+        // toast.error(error.response.data.message);
+        ErrorAlert(err)
       }
     } else {
       const data = new FormData();
@@ -256,7 +249,7 @@ const ManageReviews: React.FC = () => {
           `${process.env.NEXT_PUBLIC_API}/api/reviews/add`,
           data,
           {
-            ...HeaderMultiAPI(decryptData(localStorage.getItem("Token") || "")),
+            ...HeaderMultiAPI(await authToken()),
           }
         );
         if (res.status === 200) {
@@ -317,7 +310,7 @@ const ManageReviews: React.FC = () => {
           const res = await axios.delete(
             `${process.env.NEXT_PUBLIC_API}/api/reviews/${customer.id}`,
             {
-              ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+              ...HeaderAPI(await authToken()),
             }
           );
           if (res.status === 200) {
@@ -340,8 +333,7 @@ const ManageReviews: React.FC = () => {
             toast.error("เกิดข้อผิดพลาด");
           }
         } catch (err) {
-          const error = err as { response: { data: { message: string } } };
-          toast.error(error.response.data.message);
+          ErrorAlert(err)
         }
       }
     });
@@ -350,7 +342,7 @@ const ManageReviews: React.FC = () => {
   return (
     <div className="flex justify-center gap-3 container mx-auto py-4">
       <ToastContainer autoClose={2000} theme="colored" />
-      <Card className="flex w-full px-5 h-[85vh]">
+      <Card className="flex w-full px-5 py-5">
         <div className="flex flex-col lg:flex-row mt-3 sm:justify-between gap-3 sm:items-center">
           <div className="flex flex-col  md:flex-row sm:items-center gap-3">
             <div className="flex items-center gap-2 ">
@@ -561,9 +553,8 @@ const ManageReviews: React.FC = () => {
         </div>
         <div className="flex justify-end gap-2 mt-5 px-2 items-center">
           <button
-            className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
-              page == 1 ? "" : "hover:text-black"
-            }`}
+            className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${page == 1 ? "" : "hover:text-black"
+              }`}
             disabled={page == 1}
             onClick={() => setPage((page) => Math.max(page - 1, 1))}
           >
@@ -573,13 +564,12 @@ const ManageReviews: React.FC = () => {
             หน้าที่ {page} / {data?.totalPages || 1}{" "}
           </span>
           <button
-            className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
-              Number(data?.totalPages) - Number(page) < 1
+            className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${Number(data?.totalPages) - Number(page) < 1
                 ? true
                 : false
-                ? ""
-                : "hover:text-black"
-            }`}
+                  ? ""
+                  : "hover:text-black"
+              }`}
             disabled={Number(data?.totalPages) - Number(page) < 1}
             onClick={() => setPage((page) => page + 1)}
           >

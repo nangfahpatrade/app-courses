@@ -142,14 +142,18 @@ const SliderComponent = () => {
 
       {/* Navigation Buttons */}
       <div className="swiper-button-prev-custom absolute left-[-20px] top-1/2 transform -translate-y-1/2 bg-white text-black rounded-full p-2 shadow-lg z-10 hover:bg-gray-200 transition">
-        <img
+        <Image
+          width={500}
+          height={500}
           src="/icon-arrow-left.svg"
           alt="Previous"
           className=" h-3 md:h-4 w-3 md:w-4"
         />
       </div>
       <div className="swiper-button-next-custom absolute right-[-20px] top-1/2 transform -translate-y-1/2 bg-white text-black rounded-full p-2 shadow-lg z-10 hover:bg-gray-200 transition">
-        <img
+        <Image
+          width={500}
+          height={500}
           src="/icon-arrow-right.svg"
           alt="Next"
           className="h-3 md:h-4 w-3 md:w-4"

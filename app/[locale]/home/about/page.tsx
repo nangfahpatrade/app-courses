@@ -20,7 +20,7 @@ export default function Page() {
   return (
     <div className="">
       {/* Location 1 */}
-      <div className="flex flex-col lg:flex-row gap-8 items-center justify-center mx-auto container  py-10 px-6 lg:px-0 ">
+      <div className="flex flex-col lg:flex-row gap-8 items-center justify-center mx-auto container  py-10 px-6 lg:px-20 mt-8 ">
         <section className="w-full ">
           <iframe
             width="100%"
@@ -34,10 +34,10 @@ export default function Page() {
           ></iframe>
         </section>
         <section className="w-full ">
-          <p className="text-gray-500">สอนเทรดมือใหม่ ให้เป็นมืออาชีพ </p>
-          <h1 className="text-3xl lg:text-4xl mt-2 leading-relaxed">นางฟ้าพาเทรด สอนเทรดออนไลน์ </h1>
-          <p className="mt-6 text-gray-600 ">
-            <span className=" font-semibold text-indigo-900">
+          <p className="text-gray-500 text-sm text-center md:text-left">สอนเทรดมือใหม่ ให้เป็นมืออาชีพ </p>
+          <h1 className="text-3xl lg:text-4xl mt-2 leading-relaxed text-center md:text-left">นางฟ้าพาเทรด สอนเทรดออนไลน์ </h1>
+          <p className="mt-4 text-gray-600  text-sm">
+            <span className=" font-extrabold text-indigo-900 text-center md:text-left ">
               บริษัทนางฟ้าพาเทรดเปิดมา 3 ปี
             </span>{" "}
             {""}
@@ -48,44 +48,46 @@ export default function Page() {
             ไม่ว่าจะเป็นคนที่มีพื้นฐานมาแล้วหรือไม่มีพื้นฐานเกี่ยวกับการเทรดเลยก็สามารถเรียนรู้ได้
           </p>
 
-          <div className="flex flex-col lg:flex-row gap-5 py-6  ">
+          <div className="flex flex-col lg:flex-row gap-5 py-6  border border-gray-300 px-4 my-5 rounded-md shadow-sm ">
             <section className="w-full">
               <div className="flex flex-row gap-2 items-start">
                 <div>
-                  <FaCheckSquare size={18} className="text-indigo-800" />{" "}
+                  <FaCheckSquare size={30} className="text-indigo-800" />{" "}
                 </div>
                 <div>
-                  <p className="font-semibold">
+                  <h2 className="font-semibold text-indigo-900">
                     แนะนำการเทรดออนไลน์{" "}
-                    <span className="text-gray-600">
-                      สำหรับผู้ที่ต้องการพัฒนาทักษะการเทรดของตนเอง
-                    </span>
+                  </h2>
+                  <p className="text-gray-600 mt-1 text-sm">
+                    สำหรับผู้ที่ต้องการพัฒนาทักษะการเทรดของตนเอง
                   </p>
                 </div>
               </div>
             </section>
 
             <section className="w-full">
-              <div className="flex flex-row gap-2 items-start">
+              <div className="flex flex-row gap-2 justify-start items-start">
                 <div>
-                  <FaCheckSquare size={18} className="text-indigo-800" />{" "}
+                  <FaCheckSquare size={30} className="text-indigo-800" />{" "}
                 </div>
-                <div>
-                  <p className="font-semibold">
+
+                <div className="">
+                  <h2 className="font-semibold text-indigo-900">
                     กลยุทธ์การเทรดที่มืออาชีพใช้{" "}
-                    <span className="text-gray-600">
-                      ได้รับการสนับสนุนจากผู้เชี่ยวชาญด้านการเทรด
-                      อย่างมีประสิทธิภาพ
-                    </span>
+                  </h2>
+                  <p className="text-gray-600 mt-1 text-sm">
+                    ได้รับการสนับสนุนจากผู้เชี่ยวชาญด้านการเทรด
+                    อย่างมีประสิทธิภาพ
                   </p>
                 </div>
+
               </div>
             </section>
           </div>
 
-          <div className=" flex flex-col lg:flex-row gap-6 items-start lg:items-center mt-4">
+          <div className=" flex flex-col lg:flex-row gap-6 items-center  md:items-start lg:items-center mt-5">
             <Link href={`/${locale}/home/course`} >
-            <Button className="text-sm bg-indigo-900">คอร์สเรียนทั้งหมด</Button>
+              <Button className="text-sm bg-indigo-900" size="sm">คอร์สเรียนทั้งหมด</Button>
             </Link>
             <div className="flex flex-row gap-3">
               <Link href="xxx">
@@ -126,10 +128,10 @@ export default function Page() {
       {/* Location 2 bg-gradient-to-b from-transparent via-indigo-50 to-purple-100 */}
       <div className="bg-gray-200 mt-2 lg:mt-8">
         <div className="   mx-auto container py-16 pb-24  px-6 lg:px-0 ">
-          <p className="text-sm text-left lg:text-center text-gray-700">
+          <p className="text-sm  lg:text-center text-gray-700 text-center md:text-left">
             สอนเทรดออนไลน์ จาก zero ถึง Hero
           </p>
-          <h2 className="mt-2 text-2xl lg:text-4xl text-left lg:text-center leading-relaxed">
+          <h2 className="mt-2 text-2xl lg:text-4xl  lg:text-center leading-relaxed text-center md:text-left">
             ข้อดีของการเรียนเทรดออนไลน์กับนางฟ้าพาเทรด
           </h2>
 
@@ -140,13 +142,13 @@ export default function Page() {
                   <FaChalkboardUser className="text-indigo-800" size={40} />
                 </section>
                 <section className="w-6/7">
-                  <h3 className="text-base">พื้นฐานการเทรดสำหรับผู้เริ่มต้น</h3>
+                  <h3 className="text-base text-indigo-900">พื้นฐานการเทรดสำหรับผู้เริ่มต้น</h3>
                   <p className="text-sm mt-2 text-gray-700">
                     แนะนำเกี่ยวกับการเทรดออนไลน์และการลงทุนประเภทต่าง ๆ เช่น
                     ฟอเร็กซ์, หุ้น, และสกุลเงินดิจิทัล
                     เพื่อให้เข้าใจพื้นฐานก่อนเริ่มต้นเทรด
                   </p>
-                  <div className="mt-4 text-indigo-800 font-semibold">
+                  <div className="mt-4 text-gray-500 font-semibold">
                     <Link href={`/${locale}/home/activity`}>กิจกรรมล่าสุด</Link>
                   </div>
                 </section>
@@ -159,20 +161,20 @@ export default function Page() {
                   <VscVmActive className="text-indigo-800" size={70} />
                 </section>
                 <section className="w-5/6">
-                  <h3 className="text-base">การวิเคราะห์ทางเทคนิค</h3>
+                  <h3 className="text-lg text-indigo-900">การวิเคราะห์ทางเทคนิค</h3>
                   <p className="text-sm mt-2 text-gray-700">
                     สอนการวิเคราะห์ทางเทคนิคเพื่ออ่านกราฟราคา
                     รวมถึงการใช้เครื่องมือและอินดิเคเตอร์ต่าง ๆ
                     และการวิเคราะห์ปัจจัยพื้นฐานเพื่อประเมินมูลค่าสินทรัพย์
                   </p>
-                  <h3 className="text-base mt-4">
+                  <h3 className="text-base mt-4 text-indigo-900">
                     จัดการความเสี่ยงและการวางแผนการลงทุน
                   </h3>
                   <p className="text-sm mt-2 text-gray-700">
                     เรียนรู้วิธีจัดการความเสี่ยงในการเทรด เพื่อป้องกันการสูญเสีย
                     และการวางแผนการลงทุนอย่างมีระบบเพื่อเพิ่มโอกาสในการทำกำไร
                   </p>
-                  <div className="mt-4 text-indigo-800 font-semibold">
+                  <div className="mt-4 text-gray-500 font-semibold">
                     <Link href={`/${locale}/home/activity`}>กิจกรรมล่าสุด</Link>
                   </div>
                 </section>
@@ -185,7 +187,7 @@ export default function Page() {
                   <MdAppShortcut className="text-indigo-800" size={40} />
                 </section>
                 <section className="w-6/7">
-                  <h3 className="text-base">
+                  <h3 className="text-base text-indigo-900">
                     ใช้แพลตฟอร์มเทรดออนไลน์
                   </h3>
                   <p className="text-sm mt-2 text-gray-700">
@@ -193,7 +195,7 @@ export default function Page() {
                     TradingView และเครื่องมือเสริมต่าง ๆ
                     ที่ช่วยในการตัดสินใจลงทุน
                   </p>
-                  <div className="mt-4 text-indigo-800 font-semibold">
+                  <div className="mt-4 text-gray-500 font-semibold">
                     <Link href={`/${locale}/home/activity`}>กิจกรรมล่าสุด</Link>
                   </div>
                 </section>

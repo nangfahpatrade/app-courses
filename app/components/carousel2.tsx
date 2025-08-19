@@ -7,6 +7,7 @@ import "swiper/css/autoplay";
 import "swiper/css/pagination";
 import { Navigation, Autoplay, Pagination } from "swiper/modules";
 import type { Swiper as SwiperType } from "swiper";
+import Image from "next/image";
 
 const SliderComponent = () => {
   const swiperRef = useRef<SwiperType | null>(null);
@@ -56,13 +57,15 @@ const SliderComponent = () => {
           1024: { slidesPerView: 3 },
         }}
       >
-       
+
         {/* กล่อง 1: สมัครสมาชิก */}
         <SwiperSlide className="mb-14">
           <div
             className="bg-[#252525] w-[250px] h-[250px] p-6  rounded-lg shadow-lg hover:bg-[#333] transition flex flex-col justify-center items-center mx-auto"
           >
-            <img
+            <Image
+              height={500}
+              width={500}
               src="/icon-create-account.svg"
               alt="สมัครสมาชิก"
               className="w-12 h-12 mb-4"
@@ -79,7 +82,9 @@ const SliderComponent = () => {
           <div
             className="bg-[#242424] w-[250px] h-[250px] p-6 rounded-lg shadow-lg hover:bg-[#333] transition flex flex-col justify-center items-center mx-auto"
           >
-            <img
+            <Image
+              height={500}
+              width={500}
               src="/icon-select.svg"
               alt="เลือกคอร์สเรียน"
               className="w-12 h-12 mb-4"
@@ -98,7 +103,9 @@ const SliderComponent = () => {
           <div
             className="bg-[#242424] w-[250px] h-[250px] p-6 rounded-lg shadow-lg hover:bg-[#333] transition flex flex-col justify-center items-center mx-auto"
           >
-            <img
+            <Image
+              height={500}
+              width={500}
               src="/icon-payment.svg"
               alt="ชำระเงิน"
               className="w-12 h-12 mb-4 -mt-9"
@@ -115,7 +122,9 @@ const SliderComponent = () => {
           <div
             className="bg-[#242424] w-[250px] h-[250px] p-6 rounded-lg shadow-lg hover:bg-[#333] transition flex flex-col justify-center items-center mx-auto"
           >
-            <img
+            <Image
+              height={500}
+              width={500}
               src="/icon-play.svg"
               alt="รับชมคอร์สเรียน"
               className="w-12 h-12 mb-4"
@@ -134,7 +143,9 @@ const SliderComponent = () => {
           <div
             className="bg-[#242424] w-[250px] h-[250px] p-6 rounded-lg shadow-lg hover:bg-[#333] transition flex flex-col justify-center items-center mx-auto"
           >
-            <img
+            <Image
+              height={500}
+              width={500}
               src="/icon-test.svg"
               alt="ทำแบบทดสอบ"
               className="w-12 h-12 mb-4"

@@ -15,6 +15,8 @@ import Link from "next/link";
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+import { authToken } from "@/app/utils/tools";
 
 const navItems = [
   { href: "/user/shopcourse", label: "เลือกซื้อคอร์สเรียน" },
@@ -47,9 +49,8 @@ const NavItem: React.FC<NavItemProps> = ({
       as="li"
       key={href}
       variant="small"
-      className={`relative pb-1 flex justify-center items-center text-white font-semibold  ${
-        currentPath === href || newCurrentPath.startsWith(href) ? "active" : ""
-      }`}
+      className={`relative pb-1 flex justify-center items-center text-white font-semibold  ${currentPath === href || newCurrentPath.startsWith(href) ? "active" : ""
+        }`}
     >
       <button
         onClick={() => onClick(href)}
@@ -91,7 +92,6 @@ export function UserHeader() {
   const router = useRouter();
   const currentPath = usePathname();
 
-  const login = sessionStorage.getItem("login");
 
   useEffect(() => {
     const handleResize = () => {
@@ -113,47 +113,39 @@ export function UserHeader() {
     [router, openNav]
   );
 
-  // const handleLogout = () => {
-  //   router.push("/home");
-  //   localStorage.clear();
-  // };
+
 
   const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
   const decryptData = (ciphertext: string) => {
     const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
     return bytes.toString(CryptoJS.enc.Utf8);
   };
-  const userId = decryptData(localStorage.getItem("Id") || "");
 
   // ต้องการลบ cookie  authToken และ status
 
   const handleLogout = async () => {
     try {
-      const data = {
-        id: userId,
-      };
+  
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API}/api/logout`,
-        data,
         {
           headers: {
-            Authorization: `Bearer ${decryptData(
-              localStorage.getItem("Token") || ""
-            )}`,
+           Authorization: `Bearer ${await authToken()}`,
           },
         }
       );
-      if (res.status === 200) {
-        sessionStorage.removeItem("login");
-        localStorage.removeItem("Token");
-        localStorage.removeItem("Status");
-        // ลบ Cookies
-        Cookies.remove("authToken", { path: "/" });
-        Cookies.remove("status", { path: "/" });
-        window.location.reload(); 
-      }
+
     } catch (error) {
       console.log(error);
+    } finally {
+      toast.success("ออกจากระบบสำเร็จ!");
+      Cookies.remove("authToken");
+      Cookies.remove("status");
+      sessionStorage.removeItem("login");
+
+      setTimeout(() => {
+        window.location.href = '/auth/login';
+      }, 500);
     }
   };
 
@@ -197,22 +189,16 @@ export function UserHeader() {
           <div className="flex items-center gap-4  whitespace-nowrap ">
             <div className="mr-4 hidden lg:block ">{navList}</div>
             <div className="flex ">
-              {/* <HeaderButton href="/register" variant="outlined">Register</HeaderButton> */}
-              {login ? (
-                <Button
-                  variant="outlined"
-                  size="sm"
-                  color="white"
-                  className="hidden lg:inline-block "
-                  onClick={handleLogout}
-                >
-                  ออกจากระบบ
-                </Button>
-              ) : (
-                <HeaderButton href="/login" variant="gradient">
-                  เข้าสู่ระบบ
-                </HeaderButton>
-              )}
+
+              <Button
+                variant="outlined"
+                size="sm"
+                color="white"
+                className="hidden lg:inline-block "
+                onClick={handleLogout}
+              >
+                ออกจากระบบ
+              </Button>
             </div>
             <IconButton
               variant="text"

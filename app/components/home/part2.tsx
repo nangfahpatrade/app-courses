@@ -31,7 +31,9 @@ const Part2 = () => {
           </div>
           <div className="flex w-full lg:w-5/12 items-center">
             <div className="relative w-full h-[400px]">
-              <img
+              <Image
+                width={700}
+                height={700}
                 src="/banner-step.jpg"
                 alt="Background"
                 className="w-full h-full object-cover"

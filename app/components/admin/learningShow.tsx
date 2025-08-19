@@ -19,6 +19,7 @@ import CryptoJS from "crypto-js";
 
 import Swal from "sweetalert2";
 import Image from "next/image";
+import { authToken } from "@/app/utils/tools";
 
 interface Course {
   category_id: string;
@@ -76,7 +77,7 @@ const LearningShow: React.FC<LearningShowProps> = ({
         `${process.env.NEXT_PUBLIC_API}/api/product`,
         requestData,
         {
-          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+          ...HeaderAPI(await authToken()),
         }
       );
       console.log(res.data);
@@ -121,7 +122,7 @@ const LearningShow: React.FC<LearningShowProps> = ({
           const res = await axios.delete(
             `${process.env.NEXT_PUBLIC_API}/api/product/${category.id}`,
             {
-              ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+              ...HeaderAPI(await authToken()),
             }
           );
           // console.log(res);
@@ -228,7 +229,6 @@ const LearningShow: React.FC<LearningShowProps> = ({
                       <div className="flex justify-center">
                         <Image
                           src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${item.image}`}
-                          // src="https://courses-online.sgp1.cdn.digitaloceanspaces.com/images/18ff55dd-c842-4141-8e41-15b69364841d-..png"
                           alt=""
                           width={40}
                           height={40}

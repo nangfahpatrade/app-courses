@@ -27,6 +27,7 @@ import { FaSearch } from "react-icons/fa";
 import { useRecoilState } from "recoil";
 import { BuyCourseStore } from "@/store/store";
 import Banner from "./banner";
+import { authToken } from "@/app/utils/tools";
 
 interface Category {
   name: string;
@@ -84,7 +85,7 @@ const ShopCourse: React.FC = () => {
         `${process.env.NEXT_PUBLIC_API}/api/category`,
         requestData,
         {
-          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+          ...HeaderAPI(await authToken() ),
         }
       );
       console.log(res.data);
@@ -115,7 +116,7 @@ const ShopCourse: React.FC = () => {
         `${process.env.NEXT_PUBLIC_API}/api/product/`,
         requestData,
         {
-          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+         ...HeaderAPI(await authToken() ),
         }
       );
       console.log(res.data.data);
@@ -145,7 +146,7 @@ const ShopCourse: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="  pb-10 mx-4 my-4  md:my-6    md:container md:mx-auto">
       <ToastContainer autoClose={2000} theme="colored" />
       {/* <div>
         <Banner />
@@ -153,42 +154,50 @@ const ShopCourse: React.FC = () => {
 
       {/* section - 2 */}
 
-      <div className=" px-6  pb-10 md:px-10 container mx-auto">
-        <div className="mt-8">
-          <Typography className="text-3xl  text-black  font-light">
-            คอร์สแนะนำ
+      <div className=" bg-white px-4 py-4 md:px-8 md:py-8 border border-gray-300 rounded-md shadow-md">
+        <div className="">
+          <Typography className="text-xl md:text-3xl  text-black  font-light">
+            คอร์สเรียนเทรดออนไลน์ - ทั้งหมด
           </Typography>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-4 items-end">
-          <div className=" bg-white rounded-lg mt-4 lg:mb-0 lg:w-[300px] ">
-            <Input
-              type="text"
-              label="ค้นหาคอร์สเรียน"
-              icon={<FaSearch />}
-              crossOrigin="anonymous"
-              className="bg-white  !bg-opacity-100"
-              onChange={(e) => setSearchQuery(e.target.value)}
-              color="indigo"
-            />
+          <div className="mt-4 lg:mb-0 w-full lg:w-[300px]">
+            <p className="text-sm text-gray-600">ค้นหาชื่อคอร์สเรียน</p>
+            <div className=" bg-white rounded-lg mt-2 ">
+              <Input
+                type="text"
+                label="ค้นหาคอร์สเรียน"
+                icon={<FaSearch />}
+                crossOrigin="anonymous"
+                className="bg-white  !bg-opacity-100"
+                onChange={(e) => setSearchQuery(e.target.value)}
+                color="indigo"
+              />
+            </div>
           </div>
-          <div className=" bg-white rounded-lg mt-4 lg:mb-0 lg:w-[300px] ">
-            <select
-              value={selectCatetegory.toString()}
-              onChange={(e) => setSelectCatetegory(Number(e.target.value))}
-              className="w-full py-1.5 px-4 border border-gray-400 rounded-md"
-            >
-              <option value="0">ทั้งหมด</option>
-              {courseCategories.map((category, key) => (
-                <option key={key} value={category.id.toString()}>
-                  {category?.name} 
-                </option>
-              ))}
-            </select>
+
+          <div className=" md:mt-4 lg:mb-0 w-full lg:w-[300px]">
+            <p className="text-sm text-gray-600">ค้นหาด้วยหมวดหมู่</p>
+            <div className=" bg-white rounded-lg  ">
+              <select
+                value={selectCatetegory.toString()}
+                onChange={(e) => setSelectCatetegory(Number(e.target.value))}
+                className="w-full py-1.5 px-4 border border-gray-400 rounded-md"
+              >
+                <option value="0">หมวดหมู่ ทั้งหมด</option>
+                {courseCategories.map((category, key) => (
+                  <option key={key} value={category.id.toString()}>
+                    {category?.name}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
+
         </div>
 
-        <div className="flex justify-center mt-4 ">
+        <div className="flex justify-start mt-4 ">
           <div className=" grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-2 md:gap-6 ">
             {product.map((course, index) => (
               <Card
@@ -228,13 +237,12 @@ const ShopCourse: React.FC = () => {
                   <div className="flex flex-col mt-2   ">
                     <div className="flex w-full text-wrap gap-3 items-center">
                       <Typography
-                        className={`text-base ${
-                          course.price_sale > 0
-                            ? "text-red-500 font-semibold"
-                            : "text-red-500 font-semibold"
-                        }  mb-2  `}
+                        className={`text-lg ${course.price_sale > 0
+                          ? "text-red-500 font-semibold"
+                          : "text-red-500 font-semibold"
+                          }  mb-2  `}
                       >
-                        ราคา{" "}
+                        {course.price_sale > 0 ? "ลดเหลือ" :"ราคา"}{" "}
                         {course?.price_sale > 0
                           ? course?.price_sale.toLocaleString()
                           : course?.price.toLocaleString()}{" "}
@@ -242,7 +250,7 @@ const ShopCourse: React.FC = () => {
                       </Typography>
                       <Typography className="  text-sm line-through  mb-2  pr-1">
                         {course?.price_sale > 0
-                          ? `${course?.price.toLocaleString()} บาท`
+                          ? `จาก ${course?.price.toLocaleString()} บาท`
                           : ""}{" "}
                       </Typography>
                     </div>

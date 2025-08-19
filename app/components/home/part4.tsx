@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 import Part4_data from "./Part4_data";
 
 
-const Part4 = () => {
+const Part4 = ({ children }: { children: React.ReactNode }) => {
 
   const t = useTranslations("HomePage.section_3");
 
@@ -13,7 +13,8 @@ const Part4 = () => {
           {t("title")}
         </h2>
 
-        <Part4_data />
+        {/* <Part4_data /> */}
+        {children}
       </div>
     </div>
   );

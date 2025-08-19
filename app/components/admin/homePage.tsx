@@ -28,6 +28,7 @@ import AddEditModal from "./addEditModal";
 import CryptoJS from "crypto-js";
 
 import Swal from "sweetalert2";
+import { authToken } from "@/app/utils/tools";
 
 interface Customer {
   id: number;
@@ -50,10 +51,10 @@ const AdminPage: React.FC = () => {
 
   const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
 
-  const decryptData = (ciphertext: string) => {
+  const decryptData =  useCallback((ciphertext: string) => {
     const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
     return bytes.toString(CryptoJS.enc.Utf8);
-  };
+  },[secretKey])
  
 
 
@@ -73,7 +74,7 @@ const AdminPage: React.FC = () => {
         `${process.env.NEXT_PUBLIC_API}/api/category`,
         requestData,
         {
-          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+          ...HeaderAPI(await authToken()),
         }
       );
       console.log(res.data);
@@ -86,7 +87,7 @@ const AdminPage: React.FC = () => {
       console.error(error);
       toast.error("error");
     }
-  },  []);
+  },  [decryptData, page, searchQuery]);
 
   useEffect(() => {
     fetchCategory();
@@ -123,7 +124,7 @@ const AdminPage: React.FC = () => {
           `${process.env.NEXT_PUBLIC_API}/api/category`,
           updateData,
           {
-            ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+            ...HeaderAPI(await authToken()),
           }
         );
         if (res.status === 200) {
@@ -150,7 +151,7 @@ const AdminPage: React.FC = () => {
           `${process.env.NEXT_PUBLIC_API}/api/category/add`,
           data,
           {
-            ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+            ...HeaderAPI(await authToken()),
           }
         );
         console.log(res);
@@ -195,7 +196,7 @@ const AdminPage: React.FC = () => {
           const res = await axios.delete(
             `${process.env.NEXT_PUBLIC_API}/api/category/${customer.id}`,
             {
-              ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+              ...HeaderAPI(await authToken()),
             }
           );
           if (res.status === 200) {

@@ -40,7 +40,7 @@ const Reset: React.FC = () => {
           console.log(res);
           if (res.status === 200) {
             toast.success(res.data.message);
-            router.push("/login");
+            router.push("/auth/login");
           }
         } else if (sendotp === 200) {
           // ถ้า sendotp เท่ากับ 200 ตรวจสอบ OTP
@@ -90,21 +90,21 @@ const Reset: React.FC = () => {
         <div className="w-full lg:w-3/4 ">
           <div className="flex flex-row w-full items-center gap-3  justify-end py-4 px-8">
             <p className="text-gray-600 text-xs">
-              สมัครสมาชิกเพื่อซื้อคอร์สเรียน
+              เข้าสู่ระบบเพื่อซื้อคอร์สเรียน
             </p>
             <button
               className=" text-[10px]  border border-gray-500 px-4 py-2 rounded-full"
-              onClick={() => router.push("/register")}
+              onClick={() => router.push("/auth/login")}
             >
               {" "}
-              สมัครสมาชิก
+              เข้าสู่ระบบ
             </button>
           </div>
           <div className="flex flex-col  gap-6 py-6 md:py-10 md:pb-14 px-8 md:px-16  ">
             <div className="flex flex-col w-full  ">
               <div>
                 <Typography className=" font-medium text-3xl ">
-                  DEV SRIWARARAK (ลืมรหัสผ่าน)
+                 ลืมรหัสผ่าน
                 </Typography>
               </div>
               <div>
@@ -123,7 +123,7 @@ const Reset: React.FC = () => {
                         type="password"
                         label="new password"
                         value={newPassword}
-                        color="purple"
+                        color="indigo"
                         onChange={(e) => setNewPassword(e.target.value)}
                         required
                         className="mb-4"
@@ -136,7 +136,7 @@ const Reset: React.FC = () => {
                         type="text"
                         label="กรอก OTP"
                         value={otp}
-                        color="purple"
+                        color="indigo"
                         onChange={(e) => setotp(e.target.value)}
                         required
                         className="mb-4"
@@ -150,7 +150,7 @@ const Reset: React.FC = () => {
                       type="tel"
                       label="เบอร์โทรศัพท์"
                       value={phone}
-                      color="purple"
+                      color="indigo"
                       onChange={(e) => setPhone(e.target.value)}
                       required
                       className="mb-4"
@@ -165,24 +165,18 @@ const Reset: React.FC = () => {
                       sendCheck === 200 ? (
                         <Button
                           type="submit"
-                          className="w-full rounded-full"
-                          color="deep-purple"
-                          style={{
-                            backgroundImage:
-                              "linear-gradient(75deg, #6d28d9, #7c3aed, #8b5cf6)",
-                          }}
+                          className="w-full rounded-lg"
+                          color="indigo"
+                       
                         >
                           เปลี่ยนรหัสผ่าน
                         </Button>
                       ) : (
                         <Button
                           type="submit"
-                          className="w-full rounded-full"
-                          color="deep-purple"
-                          style={{
-                            backgroundImage:
-                              "linear-gradient(75deg, #6d28d9, #7c3aed, #8b5cf6)",
-                          }}
+                          className="w-full rounded-lg"
+                          color="indigo"
+                      
                         >
                           ส่ง OTP
                         </Button>
@@ -190,12 +184,9 @@ const Reset: React.FC = () => {
                     ) : (
                       <Button
                         type="submit"
-                        className="w-full rounded-full"
-                        color="deep-purple"
-                        style={{
-                          backgroundImage:
-                            "linear-gradient(75deg, #6d28d9, #7c3aed, #8b5cf6)",
-                        }}
+                        className="w-full rounded-lg"
+                        color="indigo"
+                   
                       >
                         ขอรับ OTP
                       </Button>
@@ -203,34 +194,14 @@ const Reset: React.FC = () => {
 
                     <Button
                       variant="outlined"
-                      className="w-full rounded-full"
-                      color="deep-purple"
+                      className="w-full rounded-lg"
+                      color="indigo"
                       onClick={() => router.push("/")}
                     >
                       ยกเลิก
                     </Button>
                   </div>
 
-                  <div className="flex flex-row items-center justify-center gap-4">
-                    <hr className="w-28 h-px my-8  bg-gray-300 border-0 dark:bg-gray-500"></hr>
-                    <p className="text-gray-500 text-center w-16 text-sm">
-                      ตัวเลือกอื่น
-                    </p>
-                    <hr className="w-28 h-px my-8 bg-gray-300 border-0 dark:bg-gray-600"></hr>
-                  </div>
-
-                  <div className="flex w-full  flex-row  gap-0 justify-center items-center     ">
-                    <div className="w-2/2 lg:w-2/4 ">
-                      <p
-                        className=" text-center text-purple-300  hover:bg-purple-50 rounded-lg px-2   py-1 cursor-pointer "
-                        onClick={() => router.push("/login")}
-                      >
-                        เข้าสู่ระบบแบบปกติ
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-end px-1"></div>
                 </div>
               </div>
             </form>

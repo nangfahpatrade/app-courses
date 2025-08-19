@@ -24,6 +24,8 @@ import {
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+import { authToken } from "@/app/utils/tools";
 
 
 
@@ -56,35 +58,63 @@ const AppbarComponent: React.FC<AppbarComponentProps> = ({
 
   const userId = decryptData(localStorage.getItem("Id") || "");
 
+  // const handleLogout = async () => {
+  //   try {
+  //     const data = {
+  //       id: userId,
+  //     };
+  //     const res = await axios.post(
+  //       `${process.env.NEXT_PUBLIC_API}/api/logout`,
+  //       data,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${decryptData(
+  //             localStorage.getItem("Token") || ""
+  //           )}`,
+  //         },
+  //       }
+  //     );
+  //     if (res.status === 200) {
+  //       sessionStorage.removeItem("login");
+  //       localStorage.removeItem("Token");
+  //       localStorage.removeItem("Status");
+  //               // ลบ Cookies
+  //               Cookies.remove("authToken", { path: "/" });
+  //               Cookies.remove("status", { path: "/" });
+  //               window.location.reload(); 
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
   const handleLogout = async () => {
+
     try {
-      const data = {
-        id: userId,
-      };
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API}/api/logout`,
-        data,
+        `${process.env.NEXT_PUBLIC_API}/api/logout`,{},
         {
           headers: {
-            Authorization: `Bearer ${decryptData(
-              localStorage.getItem("Token") || ""
-            )}`,
+            Authorization: `Bearer ${await authToken()}`,
           },
         }
       );
       if (res.status === 200) {
+        toast.success("ออกจากระบบสำเร็จ!");
+        Cookies.remove("authToken");
+        Cookies.remove("status");
         sessionStorage.removeItem("login");
-        localStorage.removeItem("Token");
-        localStorage.removeItem("Status");
-                // ลบ Cookies
-                Cookies.remove("authToken", { path: "/" });
-                Cookies.remove("status", { path: "/" });
-                window.location.reload(); 
+
+        setTimeout(() => {
+          window.location.href = '/auth/login';
+        }, 500);
       }
+
     } catch (error) {
       console.log(error);
     }
   };
+
   return (
     <div className={`fixed w-full bg-white border px-3 shadow-sm z-20 `}>
       <div className="flex justify-between items-center p-2 gap-4">

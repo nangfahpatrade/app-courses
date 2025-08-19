@@ -30,7 +30,7 @@ export default function Page() {
   const router = useRouter();
 
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const requestData = {
         page,
@@ -49,11 +49,11 @@ export default function Page() {
     } catch (error) {
       console.log(error);
     }
-  };
+  },[page, searchQuery])
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   const truncateText = (text: string, limit: number) => {
     if (text.length > limit) {
@@ -89,14 +89,14 @@ export default function Page() {
 
         <div className="flex flex-wrap ">
           {data?.map((item: any, index: any) => (
-            <div className="w-full lg:w-1/5 p-2 " key={item.id} >
-              <Link href={item.link} target="_bank" >
+            <div className="w-full lg:w-1/4 p-2 " key={item.id} >
+              <Link href={item.link} target="_blank" >
                 <Card
                   key={index}
                   className=" rounded-md w-full mt-2 flex flex-col justify-between  cursor-pointer shadow-xl transition-transform transform hover:scale-105 hover:shadow-2xl hover:translate-y-2"
                 >
                   <div className="">
-                    <div className="flex w-full h-72 md:h-56">
+                    <div className="flex w-full h-72 md:h-56 border border-gray-300 ">
                       <Image
                         src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${item?.image_title}`}
                         alt={item.title}
@@ -107,8 +107,8 @@ export default function Page() {
                       />
                     </div>
 
-                    <div className="px-2 md:px-4 py-3  ">
-                      <Typography className="text-base  text-black ps-2 ">
+                    <div className="px-2 md:px-4 py-3 text-center  ">
+                      <Typography className="text-base  text-black ps-2 font-bold ">
                         {truncateText(item.title, 30)}
                       </Typography>
                     </div>

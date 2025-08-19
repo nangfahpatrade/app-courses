@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Link from "next/link";
 import { IoPlaySkipBackOutline } from "react-icons/io5";
 import Image from "next/image";
+import { authToken } from "@/app/utils/tools";
 
 interface PageProps {
   params: {
@@ -60,9 +61,7 @@ const Study: React.FC<PageProps> = ({ params }) => {
         `${process.env.NEXT_PUBLIC_API}/api/users/product/${params.id}`,
         {
           headers: {
-            Authorization: `Bearer ${decryptData(
-              localStorage.getItem("Token") || ""
-            )}`,
+            Authorization: `Bearer ${await authToken()}`,
           },
         }
       );
@@ -133,9 +132,8 @@ const Study: React.FC<PageProps> = ({ params }) => {
                 <li
                   onClick={() => handleClick(item.title_id)}
                   key={item.title_id}
-                  className={`pt-3 pb-3 px-4 hover:bg-gray-200  rounded-md cursor-pointer ${
-                    activeTitle == item.title_id && "bg-gray-300"
-                  }`}
+                  className={`pt-3 pb-3 px-4 hover:bg-gray-200  rounded-md cursor-pointer ${activeTitle == item.title_id && "bg-gray-300"
+                    }`}
                 >
                   {index + 1}. {item.title}
                 </li>
@@ -162,17 +160,15 @@ const Study: React.FC<PageProps> = ({ params }) => {
 
       <div className="flex flex-row justify-center lg:justify-start gap-6 mt-5">
         <button
-          className={`text-lg ${
-            pageNumber === 1 && "border-b-4 border-indigo-900"
-          }`}
+          className={`text-lg ${pageNumber === 1 && "border-b-4 border-indigo-900"
+            }`}
           onClick={() => handleChangePage(1)}
         >
           คลิปวีดีโอ
         </button>
         <button
-          className={`text-lg ${
-            pageNumber === 2 && "border-b-4 border-indigo-900"
-          }`}
+          className={`text-lg ${pageNumber === 2 && "border-b-4 border-indigo-900"
+            }`}
           onClick={() => handleChangePage(2)}
         >
           ตอบคำถาม
@@ -215,13 +211,13 @@ export const VideoSection = ({
       <ul className="flex flex-col gap-2">
         {dataVideo?.map((item: any, index: any) => (
           <li
-            className={`hover:bg-gray-200 pt-3 py-3 px-4 flex flex-row justify-between items-center rounded-md ${
-              activeVideo === item.video_id && "bg-gray-300"
-            } `}
+            className={`hover:bg-gray-200 pt-3 py-3 px-4 flex flex-row justify-between items-center rounded-md ${activeVideo === item.video_id && "bg-gray-300"
+              } `}
             key={item.video_id}
           >
             {" "}
             คลิปวีดีโอที่ {index + 1}
+
             <button
               className={`bg-red-800 hover:bg-red-700 text-white px-3 rounded-md flex flex-row gap-2 justify-center items-center `}
               onClick={() => onPlayClick(item.video_id)}
@@ -251,9 +247,7 @@ export const ShowVideo = ({ id }: { id: number }) => {
         `${process.env.NEXT_PUBLIC_API}/api/users/product/video/${id}`,
         {
           headers: {
-            Authorization: `Bearer ${decryptData(
-              localStorage.getItem("Token") || ""
-            )}`,
+            Authorization: `Bearer ${await authToken()}`,
           },
           responseType: "blob",
         }
@@ -338,9 +332,7 @@ export const QuestionSection = ({
         data,
         {
           headers: {
-            Authorization: `Bearer ${decryptData(
-              localStorage.getItem("Token") || ""
-            )}`,
+            Authorization: `Bearer ${await authToken()}`,
           },
         }
       );
@@ -358,9 +350,7 @@ export const QuestionSection = ({
         `${process.env.NEXT_PUBLIC_API}/api/question/new/${userId}/${activeTitle}`,
         {
           headers: {
-            Authorization: `Bearer ${decryptData(
-              localStorage.getItem("Token") || ""
-            )}`,
+            Authorization: `Bearer ${await authToken()}`,
           },
         }
       );
@@ -385,9 +375,7 @@ export const QuestionSection = ({
         data,
         {
           headers: {
-            Authorization: `Bearer ${decryptData(
-              localStorage.getItem("Token") || ""
-            )}`,
+            Authorization: `Bearer ${await authToken()}`,
           },
         }
       );
@@ -447,18 +435,16 @@ export const QuestionSection = ({
                   <button
                     disabled={!item.image_question}
                     onClick={() => handleShowImage(item.image_question)}
-                    className={`${
-                      item.image_question ? "bg-indigo-900" : "bg-gray-300"
-                    } text-gray-300 px-2 rounded-md text-sm`}
+                    className={`${item.image_question ? "bg-indigo-900" : "bg-gray-300"
+                      } text-gray-300 px-2 rounded-md text-sm`}
                   >
                     คำถาม
                   </button>
                   <button
                     disabled={!item.image_answer}
                     onClick={() => handleShowImage(item.image_answer)}
-                    className={`${
-                      item.image_answer ? "bg-indigo-900" : "bg-gray-300"
-                    } text-gray-300 px-2 rounded-md text-sm`}
+                    className={`${item.image_answer ? "bg-indigo-900" : "bg-gray-300"
+                      } text-gray-300 px-2 rounded-md text-sm`}
                   >
                     เฉลย
                   </button>
@@ -507,17 +493,16 @@ export const QuestionSection = ({
               <div className="bg-gray-100 shadow-md rounded-md mt-4 border-l-4 border-gray-300 border-t border-t-gray-300" key={item.id}>
                 <div className=" px-4 py-4 flex flex-row md:flex-col  justify-start  gap-3">
                   <div className="w-1/3 md:w-full">
-                  <h3 className="text-base">รายการที่ {index + 1}</h3>
+                    <h3 className="text-base">รายการที่ {index + 1}</h3>
                   </div>
 
                   <div className="flex flex-col md:flex-row  items-center justify-between gap-2 w-2/3 md:w-full ">
                     <section className="w-full">
                       <p
-                        className={`rounded-md px-4 py-1.5 text-center ${
-                          item.status === 0
+                        className={`rounded-md px-4 py-1.5 text-center ${item.status === 0
                             ? "text-red-800 bg-red-100"
                             : "text-green-800 bg-green-100"
-                        }`}
+                          }`}
                       >
                         {item.status === 0 ? "รอดำเนินการ" : "เสร็จแล้ว"}
                       </p>

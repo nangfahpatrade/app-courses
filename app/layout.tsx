@@ -22,7 +22,7 @@ export default function RootLayout({
   
   return (
     <html lang={locale} className={inter.className}>
-      <body>
+      <body className="">
         <RecoilProvider>{children}</RecoilProvider>
       </body>
     </html>

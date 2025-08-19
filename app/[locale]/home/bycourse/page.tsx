@@ -17,7 +17,7 @@ export default function Page() {
       icon: <VscWand size={30} className="text-indigo-600" />,
       dec: "สมัครสมาชิก และล็อคอินเข้าสู่ระบบ สามารถล็อคอินผ่าน OTP จะส่งไปที่อีเมล์ ทำให้การเข้าสู่ระบบง่าย และปลอดภัยมากขึ้น",
       button: "เข้าสู่ระบบ / สมัครสมาชิก",
-      link: "/login"
+      link: "/auth/login"
     },
     {
       id: 1,
@@ -45,8 +45,8 @@ export default function Page() {
     },
   ];
   return (
-    <div className="py-10">
-      <div className="flex flex-col lg:flex-row gap-8 items-center justify-center container mx-auto  px-8 lg:px-0">
+    <div className="py-16">
+      <div className="flex flex-col lg:flex-row gap-8 items-center justify-center container mx-auto  px-8 lg:px-20">
         <section className="w-full">
           <div className="bg-white rounded-md shadow-xl px-1.5 py-1.5">
             <Image

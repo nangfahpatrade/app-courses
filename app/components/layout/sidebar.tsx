@@ -24,6 +24,9 @@ import { HiOutlineChatAlt2 } from "react-icons/hi";
 import { Typography } from "@material-tailwind/react";
 import CryptoJS from "crypto-js";
 import axios from "axios"; // Import axios to make API calls
+import { authToken } from "@/app/utils/tools";
+import Cookies from "js-cookie";
+
 
 interface MenuItem {
   text: string;
@@ -60,11 +63,10 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
     const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
     return bytes.toString(CryptoJS.enc.Utf8);
   };
-  const loginStatus = parseInt(
-    decryptData(localStorage.getItem("Status") || "")
-  );
-
-
+  // const loginStatus = parseInt(
+  //   decryptData(localStorage.getItem("Status") || "")
+  // );
+  const loginStatus = Number(Cookies.get('status'))
 
   const fetchData = async () => {
     try {
@@ -72,9 +74,7 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
         `${process.env.NEXT_PUBLIC_API}/api/question/new/count`,
         {
           headers: {
-            Authorization: `Bearer ${decryptData(
-              localStorage.getItem("Token") || ""
-            )}`,
+            Authorization: `Bearer ${await authToken()}`,
           },
         }
       );
@@ -90,13 +90,21 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
     }
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     fetchData();
-  },[])
+  }, [])
 
+  const pathNameActive = ['/admin/manageebook', '/admin/managereviews', '/admin/manageactivity']
 
   useEffect(() => {
     setActivePath(pathname);
+    toggleSubMenu('ข้อมูลหน้าเว็บไซต์')
+
+    if (pathNameActive.some(p => pathname.startsWith(p))) {
+      setOpen((prev) => ({ ...prev, ['ข้อมูลหน้าเว็บไซต์']: true }))
+    } else {
+      setOpen((prev) => ({ ...prev, ['ข้อมูลหน้าเว็บไซต์']: false }))
+    }
   }, [pathname]);
 
   const menuItems: MenuItem[] = useMemo(() => {
@@ -127,12 +135,12 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
             path: "/admin/homework",
             hasDivider: false,
           },
-          {
-            text: "ขอคำถามชุดใหม่",
-            icon: <HiOutlineChatAlt2 />,
-            path: "/admin/question",
-            hasDivider: false,
-          },
+          // {
+          //   text: "ขอคำถามชุดใหม่",
+          //   icon: <HiOutlineChatAlt2 />,
+          //   path: "/admin/question",
+          //   hasDivider: false,
+          // },
           {
             text: "ข้อมูลหน้าเว็บไซต์",
             icon: <CgWebsite />,
@@ -289,9 +297,8 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
 
   return (
     <div
-      className={`h-full flex flex-col bg-white ${
-        loginStatus === 1 ? " w-[200px]" : " w-[210px]"
-      }`}
+      className={`h-full flex flex-col bg-white ${loginStatus === 1 ? " w-[200px]" : " w-[210px]"
+        }`}
     >
       {/* <p className="text-red-500 mt-20">
         The current value is: {isTrue === "true" ? "True" : "False"}
@@ -307,11 +314,10 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
           return (
             <div key={index}>
               <div
-                className={`flex items-center py-1 cursor-pointer text-sm ${
-                  isActive
-                    ? " bg-opacity-70 rounded-lg py-1 border-white text-white"
-                    : ""
-                }`}
+                className={`flex items-center py-1 cursor-pointer text-sm ${isActive
+                  ? " bg-opacity-70 rounded-lg py-1 border-white text-white"
+                  : ""
+                  }`}
                 onClick={() =>
                   item.path
                     ? handleNavigation(item.path)
@@ -323,16 +329,14 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
                   style={isActive ? { backgroundColor: "#8d80d0" } : {}}
                 >
                   <div
-                    className={`mr-2 text-lg text-gray-800 ${
-                      isActive ? "text-xl text-white" : ""
-                    }`}
+                    className={`mr-2 text-lg text-gray-800 ${isActive ? "text-xl text-white" : ""
+                      }`}
                   >
                     {item.icon}
                   </div>
                   <div
-                    className={`flex-1 text-gray-600 text-nowrap ${
-                      isActive ? "text-white" : ""
-                    }`}
+                    className={`flex-1 text-gray-600 text-nowrap ${isActive ? "text-white" : ""
+                      }`}
                   >
                     {item.text}
                   </div>
@@ -360,11 +364,10 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
                     return (
                       <div key={subIndex}>
                         <div
-                          className={`flex items-center text-gray-600 py-1 cursor-pointer text-sm ${
-                            isSubItemActive
-                              ? "text-white border-white rounded-lg"
-                              : ""
-                          }`}
+                          className={`flex items-center text-gray-600 py-1 cursor-pointer text-sm ${isSubItemActive
+                            ? "text-white border-white rounded-lg"
+                            : ""
+                            }`}
                           onClick={() => handleNavigation(subItem.path)}
                         >
                           <div
@@ -376,9 +379,8 @@ const Sidebar: React.FC<SidebarProps> = ({ setDrawerOpen }) => {
                             }
                           >
                             <div
-                              className={`mr-2 ${
-                                isSubItemActive ? "text-xl" : ""
-                              }`}
+                              className={`mr-2 ${isSubItemActive ? "text-xl" : ""
+                                }`}
                             ></div>
                             {subItem.text}
                           </div>

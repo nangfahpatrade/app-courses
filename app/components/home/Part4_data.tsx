@@ -4,6 +4,12 @@ import Part4_LargeNewsItem from './Part4_LargeNewsItem';
 import Part4_NewsItem from './Part4_NewsItem';
 import { truncateText } from "@/app/libs/TruncateText";
 
+interface News {
+  id: number;
+  image_title: string;
+  title: string;
+  dec: string;
+}
 
 export const fetchNews = async () => {
   const requestData = {
@@ -13,11 +19,25 @@ export const fetchNews = async () => {
     home: true,
   };
   try {
-    const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_API}/api/homepage/news`,
-      requestData
-    );
-    return res.data;
+    // const res = await axios.post(
+    //   `${process.env.NEXT_PUBLIC_API}/api/homepage/news`,
+    //   requestData
+    // );
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API}/api/homepage/news`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body : JSON.stringify(requestData),
+        next : {revalidate: 3600}
+      }
+    )
+    if(!res.ok){
+      throw new Error('Failed to fetch news');
+    }
+    return res.json();
+    
   } catch (err) {
     const error = err as { response: { data: { message: string } } };
     console.error(error.response?.data?.message);
@@ -25,12 +45,7 @@ export const fetchNews = async () => {
   }
 };
 
-interface News {
-  id: number;
-  image_title: string;
-  title: string;
-  dec: string;
-}
+
 const Part4_data = async () => {
      const data = await fetchNews();
   return (

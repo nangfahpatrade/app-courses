@@ -20,6 +20,7 @@ import { MdDelete, MdEdit } from "react-icons/md";
 
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import CryptoJS from "crypto-js";
+import { authToken } from "@/app/utils/tools";
 
 interface Course {
   id: number;
@@ -67,7 +68,7 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
         `${process.env.NEXT_PUBLIC_API}/api/product/videos`,
         data,
         {
-          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+          ...HeaderAPI(await authToken()),
         }
       );
       console.log(res.data);
@@ -124,7 +125,7 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
           `${process.env.NEXT_PUBLIC_API}/api/product/add/videos`,
           formDataToSubmit,
           {
-            ...HeaderMultiAPI(decryptData(localStorage.getItem("Token") || "")),
+            ...HeaderMultiAPI(await authToken()),
           }
         );
       } else {
@@ -132,7 +133,7 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
           `${process.env.NEXT_PUBLIC_API}/api/product/videos`,
           formDataToSubmit,
           {
-            ...HeaderMultiAPI(decryptData(localStorage.getItem("Token") || "")),
+            ...HeaderMultiAPI(await authToken()),
           }
         );
       }
@@ -200,7 +201,7 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
           const res = await axios.delete(
             `${process.env.NEXT_PUBLIC_API}/api/product/videos/${item.id}`,
             {
-              ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+              ...HeaderAPI(await authToken()),
             }
           );
           // console.log(res);
@@ -264,12 +265,12 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
                   disabled={!!!titleId}
                   style={{ backgroundColor: "#8d80d0" }}
                 >
-                  {statusEdit == 1 ? "อัปเดต" : "บันทึก"}
+                  {statusEdit == 1 ? "อัพเดต" : "บันทึก"}
                 </Button>
               </div>
             </div>
           </div>
-          <div></div>
+          
         </form>
         <div>
           <table className="w-full overflow-auto mt-3    ">

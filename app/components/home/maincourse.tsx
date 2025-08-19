@@ -1,5 +1,5 @@
 "use client";
-import { Input, Option, Radio, Select } from "@material-tailwind/react";
+import { Button, Input, Option, Radio, Select } from "@material-tailwind/react";
 import axios from "axios";
 import { useLocale } from "next-intl";
 import Image from "next/image";
@@ -117,20 +117,15 @@ const CoursesPage: React.FC = () => {
           </h2>
         </div>
         <hr className="border border-gray-200 my-1" />
-        <div className="flex justify-between mb-2">
+        <div className="flex items-center justify-between mb-2">
           <h2 className="text-lg md:text-sm font-bold ">ตัวกรองคอร์สเรียน</h2>
-          <button
-            className="text-lg md:text-sm text-red-500 font-light "
-            onClick={resetFilters}
-          >
-            ล้างตัวกรอง
-          </button>
+          <Button color="red" size="sm" onClick={resetFilters}>ล้างตัวกรอง</Button>
         </div>
 
         {/* Radio Buttons for Price Filter */}
 
         <small className="text-gray-500"> ราคา</small>
-        <div className="flex flex-row md:flex-col ">
+        <div className="flex flex-row md:flex-col  text-base">
           <Radio
             crossOrigin="anonymous"
             name="type"
@@ -139,7 +134,6 @@ const CoursesPage: React.FC = () => {
             checked={filterPrice === 1}
             onChange={() => handleFilterChange(1)}
             color="indigo"
-            className=""
           />
 
           <Radio
@@ -208,12 +202,13 @@ const CoursesPage: React.FC = () => {
         </div>
 
         {/* Courses Grid */}
-        <div className="grid grid-cols-1 mt-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-4 ">
+        <div className="grid grid-cols-1 mt-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3  gap-4 ">
           {coursesData.map((course) => (
             <div
               key={course.id}
               className="bg-white border border-gray-100 pb-3 shadow-sm rounded-md flex flex-col justify-between"
             >
+              
               <Link href={`/${locale}/home/course/${course.id}`}>
                 <Image
                   src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${course.image}`}
@@ -227,15 +222,15 @@ const CoursesPage: React.FC = () => {
                   <p className="text-gray-600 text-sm">
                     หมวดหมู่ {course.category_name}
                   </p>
-                  <div className="flex w-full flex-wrap gap-3 mt-2 items-center">
+                  <div className="flex w-full flex-wrap gap-3 mt-2 items-center  mb-2 pr-1 ">
                     <p
-                      className={`text-md ${
+                      className={`text-xl ${
                         course.price_sale > 0
                           ? "text-red-500 font-semibold"
                           : "text-red-500 font-semibold"
-                      } mb-2 pr-1`}
+                      }`}
                     >
-                      ราคา{" "}
+                       { course.price_sale > 0 ? "ลดเหลือ" : "ราคา"}{" "}
                       {course.price_sale > 0
                         ? course.price_sale.toLocaleString()
                         : course.price.toLocaleString()}{" "}
@@ -243,7 +238,7 @@ const CoursesPage: React.FC = () => {
                     </p>
                     {course.price_sale > 0 && (
                       <p className="line-through text-sm  text-gray-600">
-                        {course.price.toLocaleString()} บาท
+                         ราคา{" "}{course.price.toLocaleString()} บาท
                       </p>
                     )}
                   </div>

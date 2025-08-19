@@ -26,6 +26,7 @@ import { FaClipboardQuestion } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
 import Image from "next/image";
 import CryptoJS from "crypto-js";
+import { authToken } from "@/app/utils/tools";
 
 const MySwal = withReactContent(Swal);
 
@@ -219,13 +220,6 @@ const HomeWorkPage: React.FC = () => {
   const [selectedItem, setSelectedItem] = useState<ListData1 | null>(null);
   const [indexQuestion, setIndexQuestion] = useState(0);
 
-  const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
-
-  const decryptData = (ciphertext: string) => {
-    const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
-    return bytes.toString(CryptoJS.enc.Utf8);
-  };
-
   const {
     products,
     chapters,
@@ -266,7 +260,7 @@ const HomeWorkPage: React.FC = () => {
           `${process.env.NEXT_PUBLIC_API}/api/question/list/change`,
           data,
           {
-            ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+            ...HeaderAPI(await authToken()),
           }
         );
 
@@ -289,7 +283,7 @@ const HomeWorkPage: React.FC = () => {
         `${process.env.NEXT_PUBLIC_API}/api/product`,
         { full: true },
         {
-          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+          ...HeaderAPI(await authToken()),
         }
       );
       console.log(res.data);
@@ -302,7 +296,7 @@ const HomeWorkPage: React.FC = () => {
       const error = err as { response: { data: { message: string } } };
       toast.error(error.response.data.message);
     }
-  }, []);
+  }, [authToken]);
 
   const fetchChapters = useCallback(async (id: number) => {
     try {
@@ -310,7 +304,7 @@ const HomeWorkPage: React.FC = () => {
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API}/api/question/select/courses/${id}`,
         {
-          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+          ...HeaderAPI(await authToken()),
         }
       );
       console.log(res);
@@ -323,7 +317,7 @@ const HomeWorkPage: React.FC = () => {
       const error = err as { response: { data: { message: string } } };
       toast.error(error.response.data.message);
     }
-  }, []);
+  }, [authToken]);
 
   useEffect(() => {
     fetchProduct();
@@ -401,19 +395,19 @@ const HomeWorkPage: React.FC = () => {
       const res =
         statusEdit === 0
           ? await axios.post(
-              `${process.env.NEXT_PUBLIC_API}/api/question/add`,
-              data,
-              {
-                ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
-              }
-            )
+            `${process.env.NEXT_PUBLIC_API}/api/question/add`,
+            data,
+            {
+              ...HeaderAPI(await authToken()),
+            }
+          )
           : await axios.put(
-              `${process.env.NEXT_PUBLIC_API}/api/question/list`,
-              data,
-              {
-                ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
-              }
-            );
+            `${process.env.NEXT_PUBLIC_API}/api/question/list`,
+            data,
+            {
+              ...HeaderAPI(await authToken()),
+            }
+          );
       console.log(res.data);
       if (res.status === 200) {
         toast.success(res.data.message);
@@ -477,7 +471,7 @@ const HomeWorkPage: React.FC = () => {
         `${process.env.NEXT_PUBLIC_API}/api/question`,
         { search: searchQuery, page, full: false },
         {
-          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+          ...HeaderAPI(await authToken()),
         }
       );
       if (res.status === 200) {
@@ -488,7 +482,7 @@ const HomeWorkPage: React.FC = () => {
     } catch (err) {
       handleAxiosError(err, "Form submission failed");
     }
-  }, [page, searchQuery]);
+  }, [page, searchQuery, authToken]);
 
   useEffect(() => {
     fetchQuestion();
@@ -508,7 +502,7 @@ const HomeWorkPage: React.FC = () => {
         `${process.env.NEXT_PUBLIC_API}/api/question/list`,
         requestData,
         {
-          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+          ...HeaderAPI(await authToken()),
         }
       );
       console.log(res.data);
@@ -522,7 +516,7 @@ const HomeWorkPage: React.FC = () => {
       console.error(error);
       toast.error("error");
     }
-  }, [pageList, select1, select2, searchList]);
+  }, [pageList, select1, select2, searchList, authToken]);
 
   useEffect(() => {
     if (select1 && select2) {
@@ -605,7 +599,7 @@ const HomeWorkPage: React.FC = () => {
           const res = await axios.delete(
             `${process.env.NEXT_PUBLIC_API}/api/question/list/${id}`,
             {
-              ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+              ...HeaderAPI(await authToken()),
             }
           );
           if (res.status === 200) {
@@ -767,8 +761,8 @@ const HomeWorkPage: React.FC = () => {
                         backgroundColor: state.isSelected
                           ? "#8d80d0"
                           : state.isFocused
-                          ? "#e6e0f3" // กำหนดสีของพื้นหลังเมื่อ hover
-                          : "#ffffff", // สีพื้นหลังปกติ
+                            ? "#e6e0f3" // กำหนดสีของพื้นหลังเมื่อ hover
+                            : "#ffffff", // สีพื้นหลังปกติ
                         color: state.isSelected ? "#ffffff" : provided.color,
                         "&:hover": {
                           backgroundColor: "#e6e0f3", // กำหนดสีของพื้นหลังเมื่อ hover
@@ -833,8 +827,8 @@ const HomeWorkPage: React.FC = () => {
                         backgroundColor: state.isSelected
                           ? "#8d80d0"
                           : state.isFocused
-                          ? "#e6e0f3" // กำหนดสีของพื้นหลังเมื่อ hover
-                          : "#ffffff", // สีพื้นหลังปกติ
+                            ? "#e6e0f3" // กำหนดสีของพื้นหลังเมื่อ hover
+                            : "#ffffff", // สีพื้นหลังปกติ
                         color: state.isSelected ? "#ffffff" : provided.color,
                         "&:hover": {
                           backgroundColor: "#e6e0f3", // กำหนดสีของพื้นหลังเมื่อ hover
@@ -1032,7 +1026,7 @@ const HomeWorkPage: React.FC = () => {
                               color="blue-gray"
                               className=" text-xs "
                             >
-                              {index+1}
+                              {index + 1}
                             </Typography>
                           </div>
                         </td>
@@ -1088,9 +1082,8 @@ const HomeWorkPage: React.FC = () => {
                 <Typography className="text-red-800 ">หมายเหตุ</Typography>
                 <div className="flex items-center gap-2">
                   <button
-                    className={` text-gray-400 text-2xl whitespace-nowrap rounded-md border border-gray-300 shadow-md ${
-                      pageList == 1 ? "" : "hover:text-black"
-                    } `}
+                    className={` text-gray-400 text-2xl whitespace-nowrap rounded-md border border-gray-300 shadow-md ${pageList == 1 ? "" : "hover:text-black"
+                      } `}
                     disabled={pageList === 1}
                     onClick={() =>
                       dispatch({
@@ -1105,11 +1098,10 @@ const HomeWorkPage: React.FC = () => {
                     หน้าที่ {pageList} / {dataList.totalPages || 1}
                   </span>
                   <button
-                    className={`text-gray-400 text-2xl whitespace-nowrap rounded-md border border-gray-300 shadow-md ${
-                      Number(data?.totalPages) - Number(pageList) < 0
+                    className={`text-gray-400 text-2xl whitespace-nowrap rounded-md border border-gray-300 shadow-md ${Number(data?.totalPages) - Number(pageList) < 0
                         ? ""
                         : "hover:text-black"
-                    }`}
+                      }`}
                     disabled={pageList >= (dataList.totalPages || 1)}
                     onClick={() =>
                       dispatch({
@@ -1140,13 +1132,15 @@ const HomeWorkPage: React.FC = () => {
                 <div className="flex w-full h-auto mt-2 ">
                   {selectedItem?.image_question &&
                     selectedItem.image_question !== "" && (
-                      <Image
-                        src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${selectedItem.image_question}`}
-                        alt="Question"
-                        width={500}
-                        height={500}
-                        className="flex w-full object-cover"
-                      />
+                      <>
+                        <Image
+                          src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${selectedItem.image_question}`}
+                          alt="Question"
+                          width={500}
+                          height={500}
+                          className="flex w-full object-cover"
+                        />
+                      </>
                     )}
                 </div>
               </Card>

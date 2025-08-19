@@ -24,27 +24,28 @@ const fetchData = async (id: string) => {
 const SubPortFolioPage: React.FC<PageProps> = async ({ params }) => {
   const data = await fetchData(params.id);
 
+  console.log(data);
+  
+
   return (
     <div className="container mx-auto flex flex-col lg:flex-row gap-6 px-6 lg:px-12 py-10">
       {/* คอลัมน์ซ้าย: เนื้อหาและรูปภาพ */}
       <div className="flex-1 lg:pr-8">
         <h1 className="text-2xl font-bold mb-5 text-center lg:text-left">
-          {data?.title}
+          {data?.reviews_title}
         </h1>
 
-        <img
+        <Image
           src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${data?.image_title}`}
           alt=""
-          className="w-full"
+          className="w-full rounded-md"
+          width={700}
+          height={700}
         />
-        {/* <Image
-          src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${data?.image_title}`}
-          alt={data?.title}
-          width={500}
-          height={500}
-        /> */}
-        <div className="px-5">
-          <p className="text-gray-700 leading-relaxed mt-5">{data?.dec}</p>
+    
+        <div className="  mt-5">
+          <h2>รายละเอียด</h2>
+          <p className="text-gray-700 leading-relaxed">{data?.dec}</p>
         </div>
 
         {/* CarouselPortFolio ด้านล่าง */}

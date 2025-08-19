@@ -19,7 +19,7 @@ interface Slide {
 const SliderComponent = () => {
   const swiperRef = useRef<SwiperType | null>(null);
   const [slides, setSlides] = useState<Slide[]>([]);
-  const [isDataLoaded, setIsDataLoaded] = useState(false); 
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   const fetchCourses = useCallback(async () => {
     const requestData = {
@@ -30,7 +30,7 @@ const SliderComponent = () => {
     };
     try {
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API}/api/homepage/courses`,requestData,
+        `${process.env.NEXT_PUBLIC_API}/api/homepage/courses`, requestData,
       );
       console.log(res)
       if (res.status === 200) {
@@ -126,10 +126,15 @@ const SliderComponent = () => {
 
       {/* Navigation Buttons */}
       <div className="swiper-button-prev-custom absolute left-[-20px] top-1/2 transform -translate-y-1/2 bg-white text-black rounded-full p-2 shadow-lg z-10 hover:bg-gray-200 transition">
-        <img src="/icon-arrow-left.svg" alt="Previous" className="h-6 w-6" />
+        <Image height={500}
+          width={500}
+          src="/icon-arrow-left.svg" alt="Previous" className="h-6 w-6" />
       </div>
       <div className="swiper-button-next-custom absolute right-[-20px] top-1/2 transform -translate-y-1/2 bg-white text-black rounded-full p-2 shadow-lg z-10 hover:bg-gray-200 transition">
-        <img src="/icon-arrow-right.svg" alt="Next" className="h-6 w-6" />
+        <Image
+          height={500}
+          width={500}
+          src="/icon-arrow-right.svg" alt="Next" className="h-6 w-6" />
       </div>
     </div>
   );

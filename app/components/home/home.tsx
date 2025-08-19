@@ -2,6 +2,7 @@ import Part1 from "./part1";
 import Part2 from "./part2";
 import Part3 from "./part3";
 import Part4 from "./part4";
+import Part4_data from "./Part4_data";
 import Part5 from "./part5";
 import Part6 from "./part6";
 import Part7 from "./part7";
@@ -13,7 +14,9 @@ const HomePage: React.FC = () => {
       <Part1 />
       <Part2 />
       <Part3 />
-      <Part4 />
+      {/* <Part4 >
+        <Part4_data />
+      </Part4> */}
       <Part5 />
       <Part6 />
       <Part7 />

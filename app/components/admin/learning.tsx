@@ -13,6 +13,7 @@ import LearningADD from "./learningAdd";
 import LearningTitle from "./learningTitel";
 import LearningVedio from "./learningVedio";
 import CryptoJS from "crypto-js";
+import { authToken } from "@/app/utils/tools";
 
 const MySwal = withReactContent(Swal);
 
@@ -92,7 +93,7 @@ const LearningPage: React.FC = () => {
         `${process.env.NEXT_PUBLIC_API}/api/category`,
         requestData,
         {
-          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+          ...HeaderAPI(await authToken()),
         }
       );
       // console.log(res)
@@ -118,7 +119,7 @@ const LearningPage: React.FC = () => {
           `${process.env.NEXT_PUBLIC_API}/api/product/title`,
           data,
           {
-            ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+            ...HeaderAPI(await authToken()),
           }
         );
         if (res.status === 200) {
@@ -175,7 +176,7 @@ const LearningPage: React.FC = () => {
           `${process.env.NEXT_PUBLIC_API}/api/product/add`,
           formDataToSubmit,
           {
-            ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+             ...HeaderAPI(await authToken()),
           }
         );
       } else {
@@ -183,7 +184,7 @@ const LearningPage: React.FC = () => {
           `${process.env.NEXT_PUBLIC_API}/api/product`,
           formDataToSubmit,
           {
-            ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+             ...HeaderAPI(await authToken()),
           }
         );
       }

@@ -185,7 +185,7 @@ export function HeaderHome({ locale }: { locale: string }) {
               <div className="mr-4 hidden   lg:block">{navList}</div>
               <div className="flex rounded-lg gap-2">
                 <div className="w-full">
-                  <HeaderButton href="/login" variant="gradient">
+                  <HeaderButton href="/auth/login" variant="gradient">
                     เข้าสู่ระบบ
                   </HeaderButton>
                 </div>

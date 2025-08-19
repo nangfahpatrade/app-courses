@@ -23,7 +23,7 @@ const SubCoursePath: React.FC<SubCoursePathProps> = ({ data }) => {
       setNumber(number.toString());
       
       // Navigate to the login page
-      router.push(`/login`);
+      router.push(`/auth/login`);
     } else {
       console.error("Product ID is missing");
     }

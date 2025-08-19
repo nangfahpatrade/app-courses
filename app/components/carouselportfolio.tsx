@@ -28,11 +28,14 @@ const SliderPortFolio = ({ data }: { data: string[] }) => {
     <div className="w-full h-full flex flex-col items-center justify-center ">
       <div className="flex flex-wrap">
         {data.map((item:any, index:any)=> (
-          <div className=" lg:w-1/4" key={index}>
+          <div className=" lg:w-1/4 p-1" key={index}>
             <div onClick={()=>handleImageClick(item)} className=" cursor-pointer">
-            <img
+            <Image
                 src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${item}`}
                 alt=""
+                width={500}
+                height={500}
+                className=" rounded-md"
               />
               </div>
             </div>

@@ -13,6 +13,7 @@ import { MdFactCheck } from "react-icons/md";
 import ModalOrder from "./modalorder";
 import ModalCheck from "./modalcheck";
 import CryptoJS from "crypto-js";
+import { authToken } from "@/app/utils/tools";
 
 interface ReviewFormData {
   products_name: string;
@@ -40,18 +41,9 @@ const MyOrder: React.FC = () => {
   const [openModal, setOpenModal] = useState(false);
   const [openModal1, setOpenModal1] = useState(false);
 
-  const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
-
-  const decryptData = (ciphertext: string) => {
-    const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
-    return bytes.toString(CryptoJS.enc.Utf8);
-  };
-
-  const userId = decryptData(localStorage.getItem("Id") || "");
-
   const fetchData = useCallback(async () => {
     const requestData = {
-      users_id: userId,
+      // users_id: userId,
       page,
       search: searchQuery,
       full: true,
@@ -61,7 +53,7 @@ const MyOrder: React.FC = () => {
         `${process.env.NEXT_PUBLIC_API}/api/pay/users`,
         requestData,
         {
-          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+          ...HeaderAPI(await authToken()),
         }
       );
       console.log(res.data);
@@ -100,7 +92,6 @@ const MyOrder: React.FC = () => {
     setOpenModal1(!openModal1);
   };
 
-  console.log(userId);
 
   const truncate = (text: string, maxLength: number = 150): string => {
     // เช็คว่าข้อความยาวเกินที่กำหนดหรือไม่ ถ้าเกินให้ตัดและใส่ ...
@@ -110,7 +101,7 @@ const MyOrder: React.FC = () => {
   return (
     <div className="flex flex-col items-center px-6 md:px-10 py-10 container mx-auto">
       <ToastContainer autoClose={2000} theme="colored" />
-      <Card className="w-full  2xl:max-w-[95rem] p-5 h-[85vh]">
+      <Card className="w-full  2xl:max-w-[95rem] p-5 ">
         <div className="flex flex-col sm:flex-row justify-start gap-3 mb-4">
 
           <div className="flex items-center gap-3 w-2/3">
@@ -157,9 +148,9 @@ const MyOrder: React.FC = () => {
                 <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 whitespace-nowrap">
                   สถานะ
                 </th>
-                <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
+                {/* <th className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-4 w-1 whitespace-nowrap">
                   ดู/ตรวจสอบ
-                </th>
+                </th> */}
               </tr>
             </thead>
             <tbody>
@@ -181,7 +172,7 @@ const MyOrder: React.FC = () => {
                     <td className="py-2 text-center">
                       {item?.status === 0 ? "ยังไม่จ่าย" : "จ่ายแล้ว"}
                     </td>
-                    <td className="py-2 flex ps-7 gap-2">
+                    {/* <td className="py-2 flex ps-7 gap-2">
                       <FaEye
                         className="h-5 w-5 text-purple-500 cursor-pointer"
                         onClick={() => openModalWithImage(item?.pay_image)}
@@ -192,7 +183,7 @@ const MyOrder: React.FC = () => {
                         }`}
                         onClick={() => openModalWithImage1(item)}
                       />
-                    </td>
+                    </td> */}
                   </tr>
                 ))
               )}

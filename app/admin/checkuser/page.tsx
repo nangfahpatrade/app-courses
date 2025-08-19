@@ -1,11 +1,12 @@
 "use client";
 import { Input } from "@material-tailwind/react";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Card, Typography } from "@material-tailwind/react";
 import { FaUserLock } from "react-icons/fa";
 import axios from "axios";
 import CryptoJS from "crypto-js";
 import PaginationPage from "@/app/components/PaginationPage";
+import { authToken } from "@/app/utils/tools";
 
 const TABLE_HEAD = [
   "ชื่อลูกค้า",
@@ -36,13 +37,8 @@ const Page = () => {
     }
   };
 
-  const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
-  const decryptData = (ciphertext: string) => {
-    const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
-    return bytes.toString(CryptoJS.enc.Utf8);
-  };
 
-  const fetchData = async (pageStart_1: number) => {
+  const fetchData = useCallback(async (pageStart_1: number) => {
     try {
       const sendData = {
         page: pageStart_1 || 1,
@@ -53,9 +49,7 @@ const Page = () => {
         sendData,
         {
           headers: {
-            Authorization: `Bearer ${decryptData(
-              localStorage.getItem("Token") || ""
-            )}`,
+            Authorization: `Bearer ${await authToken()}`,
           },
         }
       );
@@ -68,7 +62,7 @@ const Page = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  },[ search, authToken])
 
 
 
@@ -76,16 +70,14 @@ const Page = () => {
     
     try {
       const data = {
-        id: id,
+        user_id_send: id,
       };
       const res = await axios.post(
         `${process.env.NEXT_PUBLIC_API}/api/logout`,
         data,
         {
           headers: {
-            Authorization: `Bearer ${decryptData(
-              localStorage.getItem("Token") || ""
-            )}`,
+            Authorization: `Bearer ${await authToken()}`,
           },
         }
       );
@@ -99,7 +91,7 @@ const Page = () => {
 
   useEffect(() => {
     fetchData(pageStart_1);
-  }, [search]);
+  }, [search, fetchData, pageStart_1]);
   return (
     <div className="container mx-auto px-2  lg:px-8 py-8">
       <div className=" bg-white px-6 py-6 rounded-lg shadow-lg">

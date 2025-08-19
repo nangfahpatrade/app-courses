@@ -8,7 +8,7 @@ import {
   Input,
   Typography,
 } from "@material-tailwind/react";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   VscGraphLine,
   VscOrganization,
@@ -23,12 +23,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Image from "next/image";
 import PaginationPage from "@/app/components/PaginationPage";
 import ModalImage from "@/app/components/admin/modals/ModalImage";
+import { authToken } from "@/app/utils/tools";
 
-const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
-const decryptData = (ciphertext: string) => {
-  const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
-  return bytes.toString(CryptoJS.enc.Utf8);
-};
 
 const TABLE_HEAD = [
   "รหัส",
@@ -36,66 +32,9 @@ const TABLE_HEAD = [
   "วันที่ซื้อ",
   "วันหมดอายุ",
   "สถานะ",
-  "สลิปโอนเงิน",
+  // "สลิปโอนเงิน",
 ];
 
-// const TABLE_ROWS = [
-//   {
-//     name: "John Michael",
-//     job: "Manager",
-//     date: "23/04/18",
-//   },
-//   {
-//     name: "Alexa Liras",
-//     job: "Developer",
-//     date: "23/04/18",
-//   },
-//   {
-//     name: "Laurent Perrier",
-//     job: "Executive",
-//     date: "19/09/17",
-//   },
-//   {
-//     name: "Michael Levi",
-//     job: "Developer",
-//     date: "24/12/08",
-//   },
-//   {
-//     name: "Richard Gran",
-//     job: "Manager",
-//     date: "04/10/21",
-//   },
-//   {
-//     name: "Richard Gran",
-//     job: "Manager",
-//     date: "04/10/21",
-//   },
-//   {
-//     name: "Richard Gran",
-//     job: "Manager",
-//     date: "04/10/21",
-//   },
-//   {
-//     name: "Richard Gran",
-//     job: "Manager",
-//     date: "04/10/21",
-//   },
-//   {
-//     name: "Richard Gran",
-//     job: "Manager",
-//     date: "04/10/21",
-//   },
-//   {
-//     name: "Richard Gran",
-//     job: "Manager",
-//     date: "04/10/21",
-//   },
-//   {
-//     name: "Richard Gran",
-//     job: "Manager",
-//     date: "04/10/21",
-//   },
-// ];
 
 const Page = () => {
   const dateNow2 = moment(Date.now()).format("YYYY-MM-DD");
@@ -139,7 +78,8 @@ const Page = () => {
   };
 
   // search Button
-  const handleSearch = async () => {
+  const handleSearch = useCallback(
+    async () => {
     try {
       const sendData = {
         date_start: dateStart,
@@ -150,9 +90,7 @@ const Page = () => {
         sendData,
         {
           headers: {
-            Authorization: `Bearer ${decryptData(
-              localStorage.getItem("Token") || ""
-            )}`,
+            Authorization: `Bearer ${await authToken()}`,
           },
         }
       );
@@ -172,9 +110,10 @@ const Page = () => {
       console.log(error);
       // toast.error(error.response.data.message);
     }
-  };
+  },[dateStart, dateEnd, authToken]
+  )
 
-  const fetchDataPay = async (pageStart_1: number) => {
+  const fetchDataPay = useCallback(async (pageStart_1: number) => {
     try {
       const sendData = {
         page: pageStart_1 || 1,
@@ -185,9 +124,7 @@ const Page = () => {
         sendData,
         {
           headers: {
-            Authorization: `Bearer ${decryptData(
-              localStorage.getItem("Token") || ""
-            )}`,
+            Authorization: `Bearer ${await authToken()}`,
           },
         }
       );
@@ -200,7 +137,7 @@ const Page = () => {
     } catch (error) {
       console.log(error);
     }
-  };
+  },[authToken, search ])
 
   const Pagination_1 = (pageNumber: number) => {
     if (pageNumber === 1) {
@@ -217,7 +154,7 @@ const Page = () => {
   useEffect(() => {
     handleSearch();
     fetchDataPay(pageStart_1);
-  }, [search]);
+  }, [search, fetchDataPay, handleSearch, pageStart_1]);
 
   return (
     <div className=" container mx-auto px-2  lg:px-8 py-8">
@@ -444,7 +381,7 @@ const Page = () => {
                           {item.status === 0 ? "ยังไม่ชำระ" : "ชำระแล้ว"}
                         </p>
                       </td>
-                      <td className={classes}>
+                      {/* <td className={classes}>
                         <button
                           disabled={item.status === 0}
                           className={`${
@@ -456,7 +393,7 @@ const Page = () => {
                         >
                           สลิปโอนเงิน
                         </button>
-                      </td>
+                      </td> */}
                     </tr>
                   );
                 })}

@@ -124,6 +124,7 @@ const PortfolioPage = () => {
                 href={`/${locale}/home/portfolio/${portfolio?.id}`}
                 className="lg:w-2/5"
               >
+                
                 <Image
                   src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${portfolio?.image_title}`}
                   alt={portfolio?.image_title}

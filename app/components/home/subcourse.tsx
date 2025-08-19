@@ -25,9 +25,13 @@ const fetchData = async (id: String) => {
 
 const SubCourse: React.FC<PageProps> = async ({ params }) => {
   const data = await fetchData(params.id);
+  console.log('xxxxx');
+  
+  console.log({data});
+  
   return (
     <div className="container mx-auto p-4 grid grid-cols-1 lg:grid-cols-3 gap-4 mt-5">
-      {/* ส่วนข้อมูลหลัก */}
+      {/* ส่วนข้อมูลหลัก */} 
       <div className="lg:col-span-2">
         <div className="w-full">
           {data?.products_youtube && (

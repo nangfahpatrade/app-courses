@@ -9,6 +9,9 @@ import Image from "next/image";
 export default function Page() {
   return (
     <div className="bg-gray-100 h-full">
+
+
+
       <div className="mx-auto container px-6 md:px-20 py-10">
         <div>
           <Image
@@ -27,21 +30,27 @@ export default function Page() {
             <div className="bg-white border border-gray-200 shadow-md rounded-md px-6 py-8">
               <h1 className="text-xl text-gray-800">ส่งข้อความหาเรา</h1>
               <div className="flex flex-col md:flex-row gap-2 mt-6">
-                <Input
-                  crossOrigin="anonymous"
-                  type="text"
-                  label="ชื่อ"
-                  color="indigo"
-                />
 
-                <Input
-                  crossOrigin="anonymous"
-                  type="text"
-                  label="เบอร์โทร"
-                  color="indigo"
-                />
+                <div className="bg-gray-100 w-full">
+                  <Input
+                    crossOrigin="anonymous"
+                    type="text"
+                    label="ชื่อ"
+                    color="indigo"
+                  />
+                </div>
+
+                <div className="bg-gray-100 w-full">
+                  <Input
+                    crossOrigin="anonymous"
+                    type="text"
+                    label="เบอร์โทร"
+                    color="indigo"
+                  />
+                </div>
+
               </div>
-              <div className="mt-4   rounded-md w-full   ">
+              <div className="mt-4   rounded-md w-full bg-gray-100   ">
                 <Textarea label="รายละเอียด" className=" " color="indigo" />
               </div>
               <div className="text-right mt-8">
@@ -126,7 +135,7 @@ export default function Page() {
                       </h2>
 
                       <p className=" text-sm text-gray-600 mt-1">
-                        ติดต่อสอบถาม มีแอดมินคอยให้คำปรึกษา 
+                        ติดต่อสอบถาม มีแอดมินคอยให้คำปรึกษา
                       </p>
                     </div>
                   </div>

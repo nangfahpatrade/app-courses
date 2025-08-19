@@ -19,6 +19,7 @@ import Swal from "sweetalert2";
 import { IoIosArrowForward,IoIosArrowBack  } from "react-icons/io";
 import { GrUploadOption } from "react-icons/gr";
 import CryptoJS from "crypto-js";
+import { authToken } from "@/app/utils/tools";
 
 
 interface LearningTitleProps {
@@ -59,13 +60,10 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
   setTitleId,
 }) => {
 
-  const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
 
-  const decryptData = (ciphertext: string) => {
-    const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
-    return bytes.toString(CryptoJS.enc.Utf8);
-  };
+
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [selectIndex , setSelectIndex] = useState<number | null>(null)
 
   const fetchTitle = useCallback(
     async (id: any) => {
@@ -79,7 +77,7 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
           `${process.env.NEXT_PUBLIC_API}/api/product/title`,
           data,
           {
-            ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+           ...HeaderAPI(await authToken()),
           }
         );
         console.log(res);
@@ -119,7 +117,7 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
           `${process.env.NEXT_PUBLIC_API}/api/product/title`,
           data,
           {
-            ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+            ...HeaderAPI(await authToken()),
           }
         );
         if (res.status === 200) {
@@ -150,7 +148,7 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
           `${process.env.NEXT_PUBLIC_API}/api/product/add/title`,
           data,
           {
-            ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+           ...HeaderAPI(await authToken()),
           }
         );
         if (res.status === 200) {
@@ -224,7 +222,7 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
           const res = await axios.delete(
             `${process.env.NEXT_PUBLIC_API}/api/product/title/${item.id}`,
             {
-              ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+               ...HeaderAPI(await authToken()),
             }
           );
           if (res.status === 200) {
@@ -249,6 +247,8 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
               no-repeat
             `, // ปรับแต่ง backdrop
             });
+            window.location.reload()
+
           } else {
             toast.error("เกิดข้อผิดพลาด");
           }
@@ -272,6 +272,9 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
   const handleUpload = async (item: any) => {
     // console.log(item)
     setTitleId(item.id);
+    console.log(item);
+    setSelectIndex(item.id)
+    
   };
 
   const clearForm = () => {
@@ -285,7 +288,7 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
   return (
     <div className="flex w-full   gap-3 shadow-lg">
       <div className="w-full overflow-auto  ">
-        <Card className="p-5  overflow-auto border-2 ">
+        <Card className="p-3  overflow-auto border-2 ">
           <div className="flex gap-3 items-center">
             <Input
               label="สร้างบทเรียน"
@@ -363,7 +366,7 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
                   </tr>
                 ) : (
                   dataTitle?.data?.map((item: any, index: number) => (
-                    <tr key={item.id} style={{ marginTop: "3px" }}  className="hover:bg-purple-100/20">
+                    <tr key={item.id} style={{ marginTop: "3px" }}  className={`hover:bg-purple-100/20 ${selectIndex === item.id ? "bg-purple-100/40" :""}`}>
                       <td >
                         <div className="flex py-2.5  px-5  items-center  ">
                           <Typography
@@ -384,9 +387,6 @@ const LearningTitle: React.FC<LearningTitleProps> = ({
                           >
                             {item.title}
                           </Typography>
-                          <div className="tooltip-text text-sm">
-                            {item.title}
-                          </div>
                         </div>
                       </td>
                       <td>

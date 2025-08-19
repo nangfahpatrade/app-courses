@@ -23,6 +23,7 @@ import { FaSearch } from "react-icons/fa";
 
 import Banner from "./banner";
 import parse from "html-react-parser";
+import { authToken } from "@/app/utils/tools";
 
 interface Category {
   name: string;
@@ -67,15 +68,12 @@ const ShopCourse: React.FC = () => {
   const userId = decryptData(localStorage.getItem("Id") || "");
 
   const fetchCategory = useCallback(async () => {
-    const requestData = {
-      users_id: userId || 0,
-    };
+
     try {
       const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_API}/api/users/category`,
-        requestData,
+        `${process.env.NEXT_PUBLIC_API}/api/users/category`, {},
         {
-          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+          ...HeaderAPI(await authToken()),
         }
       );
       console.log(res.data);
@@ -97,7 +95,6 @@ const ShopCourse: React.FC = () => {
   const fetchProduct = useCallback(async () => {
     const requestData = {
       // page: page,
-      users_id: userId || 0,
       search: searchQuery,
       page: 1,
       full: true,
@@ -109,7 +106,7 @@ const ShopCourse: React.FC = () => {
         `${process.env.NEXT_PUBLIC_API}/api/users/product`,
         requestData,
         {
-          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+          ...HeaderAPI(await authToken()),
         }
       );
       console.log(res.data);
@@ -135,14 +132,14 @@ const ShopCourse: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className=" pb-10 mx-4 my-4  md:my-6    md:container md:mx-auto">
       <ToastContainer autoClose={2000} theme="colored" />
 
       {/* section - 2 */}
 
-      <div className=" px-6 md:px-10 py-10 container mx-auto">
+      <div className=" bg-white px-4 py-4 md:px-8 md:py-8 border border-gray-300 rounded-md shadow-md">
         <div className="">
-          <Typography className="text-3xl  text-black  font-light">
+          <Typography className="text-xl md:text-3xl  text-black  font-light">
             คอร์สของฉัน
           </Typography>
         </div>
@@ -176,60 +173,8 @@ const ShopCourse: React.FC = () => {
           </div>
         </div>
 
-        {/* <div className=" flex flex-row lg:flex-wrap gap-2 items-center justify-start mt-3 md:mt-6 ">
-          <div className="w-1/4">
-            <Button
-              size="sm"
-              className=" font-light bg-indigo-800 lg:hidden"
-              onClick={() => handleClickCategory(0)}
-            >
-              ทั้งหมด
-            </Button>
-          </div>
 
-          <div className="w-3/4">
-            <div className=" md:hidden bg-white mt-1">
-              <Select label="เลือกหมวดหมู่">
-                {courseCategories.map((category, key) => (
-                  <Option
-                    key={key}
-                    value={String(category.category_id)}
-                    onClick={() => handleClickCategory(category.category_id)}
-                  >
-                    {category?.category_name}
-                  </Option>
-                ))}
-              </Select>
-            </div>
-
-            <div className="hidden lg:flex lg:flex-row lg:gap-2 ">
-              <Button
-                size="sm"
-                className=" font-light bg-indigo-800 "
-                onClick={() => handleClickCategory(0)}
-              >
-                ทั้งหมด
-              </Button>
-              {courseCategories.map((category, key) => (
-                <Button
-                  key={key}
-                  size="sm"
-                  className={`${
-                    index == category.category_id
-                      ? "bg-yellow-900 text-white border border-yellow-500 "
-                      : "border border-indigo-800 bg-gray-200 text-indigo-800"
-                  } `}
-                  onClick={() => handleClickCategory(category.category_id)}
-                >
-                  {category?.category_name}
-                </Button>
-              ))}
-            </div>
-          </div>
-
-        </div> */}
-
-        <div className="flex justify-center mt-4 ">
+        <div className="flex justify-start mt-4 ">
           <div className=" grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 ">
             {product?.map((course, index) => (
               <Card
@@ -238,7 +183,7 @@ const ShopCourse: React.FC = () => {
                 onClick={() =>
                   router.push(`/user/study/${course?.products_id}`)
                 }
-                // onClick={() => router.push(`/user/study`)}
+              // onClick={() => router.push(`/user/study`)}
               >
                 <div>
                   <div className="flex w-full h-[200px]">

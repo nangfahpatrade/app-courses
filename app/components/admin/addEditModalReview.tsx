@@ -11,6 +11,7 @@ import {
   Option,
   Card,
   CardBody,
+  Textarea,
 } from "@material-tailwind/react";
 import { AiOutlineStop } from "react-icons/ai";
 import { FaRegSave } from "react-icons/fa";
@@ -37,7 +38,7 @@ interface AddEditModalReviewProps {
   handleModalAdd: () => void;
   formData: ReviewFormData;
   handleChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => void;
   handleAddReview: () => void;
   dataEdit: ReviewFormData | null;
@@ -144,7 +145,7 @@ const AddEditModalReview: React.FC<AddEditModalReviewProps> = ({
   return (
     <Dialog
       open={open}
-      size={dataEdit ? "xl" : "xs"}
+      size={dataEdit ? "xl" : "lg"}
       handler={handleModalAdd}
       className="h-auto"
     >
@@ -157,88 +158,113 @@ const AddEditModalReview: React.FC<AddEditModalReviewProps> = ({
         </Typography>
       </DialogHeader>
       <DialogBody divider className="overflow-auto">
-        <div className="flex flex-col lg:flex-row gap-5">
-          <div
-            className={`w-full ${
-              dataEdit ? "lg:w-4/12" : ""
-            } flex flex-col  gap-4`}
-          >
-            <Input
-              name="title"
-              value={formData?.title}
-              onChange={handleChange}
-              label="หัวข้อ"
-              color="deep-purple"
-              style={{ backgroundColor: "#f4f2ff" }}
-              crossOrigin
-            />
-            <Input
-              name="dec"
-              value={formData.dec}
-              onChange={handleChange}
-              label="รายละเอียด"
-              color="deep-purple"
-              style={{ backgroundColor: "#f4f2ff" }}
-              crossOrigin
-            />
-            <Select
-              name="type"
-              label="เลือกประเภท"
-              color="deep-purple"
-              style={{ backgroundColor: "#f4f2ff" }}
-              value={formData.type?.toString() || "0"}
-              onChange={(value) => handleSelectChange("type", value)}
-            >
-              <Option value="0"  className="custom-option">สัมมนา</Option>
-              <Option value="1"  className="custom-option">รีวิว</Option>
-            </Select>
-            <Input
-              type="file"
-              onChange={handleCoverChange}
-              label="เลือกรูปปก"
-              color="deep-purple"
-              style={{ backgroundColor: "#f4f2ff" }}
-              crossOrigin
-            />
-            <Input
-              type="file"
-              multiple
-              label="เลือกอัลบั้ม"
-              color="deep-purple"
-              style={{ backgroundColor: "#f4f2ff" }}
-              onChange={handleAlbumChange}
-              crossOrigin
-            />
-          </div>
-          {dataEdit && (
-            <div className="w-full lg:w-8/12 h-[400px] flex flex-col gap-4 overflow-auto p-4 border border-gray-300 rounded-md shadow-sm">
-              <Typography variant="h6" className="text-center">
-                {formData.type == 1 ? "ภาพรีวิว" : "ภาพสัมมนา" }
-              </Typography>
-              <div className="grid grid-cols-2 gap-4">
-                {reviewImages?.map((imageObj, index) => (
-                  <Card key={index} className="shadow-lg relative">
-                    <CardBody>
-                      <Image
-                        src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${imageObj.image}`}
-                        alt={`Review Image ${index + 1}`}
-                        width={400}
-                        height={400}
-                        className="rounded-md object-cover"
-                      />
-                      <button
-                        className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md hover:bg-gray-200"
-                        onClick={() => handleRemoveImageWrapper(index)}
-                      >
-                        <MdDelete size={24} color="red" />
-                      </button>
-                    </CardBody>
-                  </Card>
-                ))}
+
+
+        <div className={`flex flex-col md:flex-row gap-4`}>
+          <section className={`${dataEdit ? "w-full md:w-7/12" : "w-full"}  `}>
+            <div className="flex flex-col md:flex-row gap-4">
+              <div className="w-full md:w-2/3">
+                <label htmlFor="" className="text-xs">หัวข้อ</label>
+                <Input
+                  name="title"
+                  value={formData?.title}
+                  onChange={handleChange}
+                  label="หัวข้อ"
+                  color="deep-purple"
+                  style={{ backgroundColor: "#f4f2ff" }}
+                  crossOrigin
+                />
+              </div>
+              <div className="w-full md:w-1/3">
+                <label htmlFor="" className="text-xs">ประเภท</label>
+                <Select
+                  name="type"
+                  label="เลือกประเภท"
+                  color="deep-purple"
+                  style={{ backgroundColor: "#f4f2ff" }}
+                  value={formData.type?.toString() || "0"}
+                  onChange={(value) => handleSelectChange("type", value)}
+                >
+                  <Option value="0" className="custom-option">สัมมนา</Option>
+                  <Option value="1" className="custom-option">รีวิว</Option>
+                </Select>
               </div>
             </div>
+
+            <div className="mt-1">
+              <label htmlFor="" className="text-xs">รายละเอียด</label>
+              <Textarea
+                name="dec"
+                value={formData.dec}
+                onChange={handleChange}
+                label="รายละเอียด"
+                color="deep-purple"
+                style={{ backgroundColor: "#f4f2ff" }}
+
+
+              />
+            </div>
+
+            <div className="flex flex-col md:flex-row gap-4 mb-2">
+              <div className="w-full">
+                <label htmlFor="" className="text-xs">รูปหน้าปก ได้ 1 รูป</label>
+                <Input
+                  type="file"
+                  onChange={handleCoverChange}
+                  label="เลือกรูปปก"
+                  color="deep-purple"
+                  style={{ backgroundColor: "#f4f2ff" }}
+                  crossOrigin
+                />
+              </div>
+              <div className="w-full">
+                <label htmlFor="" className="text-xs">รูปในอัลบั้ม ได้หลายรูป</label>
+                <Input
+                  type="file"
+                  multiple
+                  label="เลือกอัลบั้ม"
+                  color="deep-purple"
+                  style={{ backgroundColor: "#f4f2ff" }}
+                  onChange={handleAlbumChange}
+                  crossOrigin
+                />
+              </div>
+            </div>
+          </section>
+
+          {dataEdit && (
+            <section className={`${dataEdit ? "w-full md:w-5/12" : "w-full"} `}>
+              <div className="w-full  h-[400px] flex flex-col gap-4 overflow-auto p-4 border border-gray-300 rounded-md shadow-sm">
+                <Typography variant="h6" className="text-center">
+                  {formData.type == 1 ? "ภาพรีวิว" : "ภาพสัมมนา"}
+                </Typography>
+                <div className="grid grid-cols-2 md:grid-cols-2 gap-4 ">
+                  {reviewImages?.map((imageObj, index) => (
+                    <Card key={index} className="shadow-lg relative ">
+                      <CardBody className="p-2">
+                        <Image
+                          src={`${process.env.NEXT_PUBLIC_IMAGE_API}/images/${imageObj.image}`}
+                          alt={`Review Image ${index + 1}`}
+                          width={400}
+                          height={400}
+                          className="rounded-md object-cover"
+                        />
+                        <button
+                          className="absolute top-2 right-2 bg-white rounded-full p-1 shadow-md hover:bg-gray-200"
+                          onClick={() => handleRemoveImageWrapper(index)}
+                        >
+                          <MdDelete size={24} color="red" />
+                        </button>
+                      </CardBody>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            </section>
           )}
         </div>
+
+
       </DialogBody>
       <DialogFooter>
         <Button

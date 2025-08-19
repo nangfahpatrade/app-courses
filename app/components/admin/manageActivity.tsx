@@ -22,6 +22,8 @@ import Swal from "sweetalert2";
 import Image from "next/image";
 import AddEditModalActivity from "./addEditModalActivity";
 import CryptoJS from "crypto-js";
+import { authToken } from "@/app/utils/tools";
+import { ErrorAlert } from "@/app/utils/apiConfig";
 
 interface ReviewFormData {
   id: number;
@@ -68,13 +70,6 @@ const ManageActivity: React.FC = () => {
     { id: number; image: string }[]
   >([]);
 
-  const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
-
-  const decryptData = (ciphertext: string) => {
-    const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
-    return bytes.toString(CryptoJS.enc.Utf8);
-  };
-
   const fetchReviews = useCallback(async () => {
     const requestData = {
       page,
@@ -86,7 +81,7 @@ const ManageActivity: React.FC = () => {
         `${process.env.NEXT_PUBLIC_API}/api/activity`,
         requestData,
         {
-          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+          ...HeaderAPI(await authToken()),
         }
       );
       console.log(res.data);
@@ -96,8 +91,7 @@ const ManageActivity: React.FC = () => {
         toast.error("Error");
       }
     } catch (error) {
-      console.error(error);
-      toast.error("Error");
+      ErrorAlert(error)
     }
   }, [page, searchQuery, searchType]);
 
@@ -126,7 +120,7 @@ const ManageActivity: React.FC = () => {
         `${process.env.NEXT_PUBLIC_API}/api/activity/images/${item.id}`,
         // `${process.env.NEXT_PUBLIC_API}/api/activity/images/4`,
         {
-          ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+          ...HeaderAPI(await authToken()),
         }
       );
       console.log(res.data);
@@ -136,8 +130,7 @@ const ManageActivity: React.FC = () => {
         // toast.error("Error fetching images");
       }
     } catch (error) {
-      console.error(error);
-      // toast.error("Error fetching images");
+      ErrorAlert(error)
     }
   };
 
@@ -214,7 +207,7 @@ const ManageActivity: React.FC = () => {
           `${process.env.NEXT_PUBLIC_API}/api/activity`,
           updateData,
           {
-            ...HeaderMultiAPI(decryptData(localStorage.getItem("Token") || "")),
+            ...HeaderMultiAPI(await authToken()),
           }
         );
         console.log(res);
@@ -253,7 +246,7 @@ const ManageActivity: React.FC = () => {
           `${process.env.NEXT_PUBLIC_API}/api/activity/add`,
           data,
           {
-            ...HeaderMultiAPI(decryptData(localStorage.getItem("Token") || "")),
+            ...HeaderMultiAPI(await authToken()),
           }
         );
         if (res.status === 200) {
@@ -265,8 +258,7 @@ const ManageActivity: React.FC = () => {
         }
       } catch (err) {
         handleModalAdd();
-        const error = err as { response: { data: { message: string } } };
-        toast.error(error.response.data.message);
+        ErrorAlert(err)
       }
     }
   };
@@ -314,7 +306,7 @@ const ManageActivity: React.FC = () => {
           const res = await axios.delete(
             `${process.env.NEXT_PUBLIC_API}/api/activity/${customer.id}`,
             {
-              ...HeaderAPI(decryptData(localStorage.getItem("Token") || "")),
+              ...HeaderAPI(await authToken()),
             }
           );
           if (res.status === 200) {
@@ -337,8 +329,7 @@ const ManageActivity: React.FC = () => {
             toast.error("เกิดข้อผิดพลาด");
           }
         } catch (err) {
-          const error = err as { response: { data: { message: string } } };
-          toast.error(error.response.data.message);
+          ErrorAlert(err)
         }
       }
     });
@@ -522,9 +513,8 @@ const ManageActivity: React.FC = () => {
         </div>
         <div className="flex justify-end gap-2 mt-7 px-2 items-center">
           <button
-            className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
-              page == 1 ? "" : "hover:text-black"
-            }`}
+            className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${page == 1 ? "" : "hover:text-black"
+              }`}
             disabled={page == 1}
             onClick={() => setPage((page) => Math.max(page - 1, 1))}
           >
@@ -534,13 +524,12 @@ const ManageActivity: React.FC = () => {
             หน้าที่ {page} / {data?.totalPages || 1}{" "}
           </span>
           <button
-            className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${
-              Number(data?.totalPages) - Number(page) < 1
-                ? true
-                : false
+            className={`text-gray-400 text-2xl whitespace-nowrap rounded-full border border-gray-300 shadow-md ${Number(data?.totalPages) - Number(page) < 1
+              ? true
+              : false
                 ? ""
                 : "hover:text-black"
-            }`}
+              }`}
             disabled={Number(data?.totalPages) - Number(page) < 1}
             onClick={() => setPage((page) => page + 1)}
           >

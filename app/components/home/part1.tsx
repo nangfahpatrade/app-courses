@@ -15,15 +15,16 @@ const Part1: React.FC = () => {
       }}
       className=" pb-20 md:pb-0   "
     >
+      
       <div className="flex flex-col   mx-auto container lg:px-28 py-20  md:py-40    h-full ">
-       
-          <h1 className=" text-white text-4xl md:text-[80px] text-center lg:text-start   font-[700]">
-            {t("banner.title_1")}
-          </h1>
-        
+
+        <h1 className=" text-white text-4xl md:text-[80px] text-center lg:text-start   font-[700]">
+          {t("banner.title_1")}
+        </h1>
+
         <div>
           <h1 className=" mt-4 md:mt-10 lg:md-0 text-4xl md:text-[60px] 2xl:ps-[130px] font-[700] text-[#DF9E10] text-center lg:text-start ">
-          {t("banner.title_2")}
+            {t("banner.title_2")}
           </h1>
         </div>
 
@@ -46,7 +47,7 @@ const Part1: React.FC = () => {
                 alt="Facebook Icon"
                 width={100}
                 height={100}
-                className="w-6 h-6" 
+                className="w-6 h-6"
               />
               <span className="text-[#093165] text-sm  md:text-[17px] font-[400] xl:text-nowrap">
                 Nang Fah Pa Trade-นางฟ้าพาเทรดForex
@@ -58,7 +59,7 @@ const Part1: React.FC = () => {
                 alt="Facebook Icon"
                 width={100}
                 height={100}
-                className="w-6 h-6" 
+                className="w-6 h-6"
               />
               <span className="text-[#093165]  text-sm  md:text-[17px] font-[400] ">nangfahpatrade88888</span>
             </div>
@@ -68,7 +69,7 @@ const Part1: React.FC = () => {
                 alt="Facebook Icon"
                 width={100}
                 height={100}
-                className="w-6 h-6" 
+                className="w-6 h-6"
               />
               <span className="text-[#093165]  text-sm  md:text-[17px] font-[400]">@nangfahpatrade</span>
             </div>

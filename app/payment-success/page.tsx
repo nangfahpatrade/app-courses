@@ -56,6 +56,7 @@ export default function PaymentSuccessPage() {
                 setStatus("failed")
             }
         };
+        
 
         // เริ่มการเช็คทุกๆ 2 วินาที
         const intervalId = setInterval(checkStatus, 2000);

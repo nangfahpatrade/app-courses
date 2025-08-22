@@ -49,6 +49,7 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
   });
   const [statusEdit, setStatusEdit] = useState(0); // เพิ่มสถานะนี้
   const [videoId, setVideoId] = useState(0);
+  const [load, setLoad] = useState(false)
 
   const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
 
@@ -102,6 +103,15 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    Swal.fire({
+      title: "กำลังส่งข้อมูล...",
+      text: "กรุณารอสักครู่",
+      allowOutsideClick: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
 
     const formDataToSubmit = new FormData();
 
@@ -141,17 +151,28 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
       console.log(res);
 
       if (res.status === 200) {
-        toast.success(res.data.message);
+
+        Swal.fire({
+          icon: "success",
+          title: "สำเร็จ!",
+          text: "บันทึกข้อมูลเรียบร้อยแล้ว",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+
         fetchVideo();
         setStatusEdit(0)
         resetForm();
       } else {
         toast.error("Form submission failed!");
+        setLoad(false)
       }
     } catch (err) {
       console.log(err);
       const error = err as { response: { data: { message: string } } };
       toast.error(error.response.data.message);
+    } finally {
+      setLoad(false)
     }
   };
 
@@ -270,7 +291,7 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
               </div>
             </div>
           </div>
-          
+
         </form>
         <div>
           <table className="w-full overflow-auto mt-3    ">
@@ -305,7 +326,7 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
                 </tr>
               ) : (
                 dataVideo?.data?.map((item: any, index: number) => (
-                  <tr key={item.id}  className=" hover:bg-purple-100/20">
+                  <tr key={item.id} className=" hover:bg-purple-100/20">
                     <td className="flex py-2.5  px-5 justify-between">
                       <div className="flex items-center justify-center">
                         <Typography
@@ -341,9 +362,8 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
         </div>
         <div className="flex justify-end gap-2 mt-6 px-2 items-center">
           <button
-            className={` text-gray-400 text-xl whitespace-nowrap rounded-md border border-gray-300 shadow-md  ${
-              pageVideo == 1 ? "" : "hover:text-black"
-            } `}
+            className={` text-gray-400 text-xl whitespace-nowrap rounded-md border border-gray-300 shadow-md  ${pageVideo == 1 ? "" : "hover:text-black"
+              } `}
             disabled={pageVideo == 1}
             onClick={() =>
               setPageVideo((pageVideo) => Math.max(pageVideo - 1, 1))
@@ -355,13 +375,12 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
             หน้าที่ {pageVideo} / {dataVideo?.totalPages || 1}{" "}
           </span>
           <button
-            className={`text-gray-400 text-xl whitespace-nowrap rounded-md border border-gray-300 shadow-md ${
-              Number(dataVideo?.totalPages) - Number(pageVideo) < 1
-                ? true
-                : false
+            className={`text-gray-400 text-xl whitespace-nowrap rounded-md border border-gray-300 shadow-md ${Number(dataVideo?.totalPages) - Number(pageVideo) < 1
+              ? true
+              : false
                 ? ""
                 : "hover:text-black"
-            }`}
+              }`}
             disabled={
               Number(dataVideo?.totalPages) - Number(pageVideo) < 1
                 ? true

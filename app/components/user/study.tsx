@@ -10,6 +10,7 @@ import Link from "next/link";
 import { IoPlaySkipBackOutline } from "react-icons/io5";
 import Image from "next/image";
 import { authToken } from "@/app/utils/tools";
+import Swal from "sweetalert2";
 
 interface PageProps {
   params: {
@@ -243,6 +244,18 @@ export const ShowVideo = ({ id }: { id: number }) => {
 
   const fetchData = async () => {
     try {
+      if (id) {
+        Swal.fire({
+          title: "กำลังโหลดข้อมูล...",
+          text: "กรุณารอสักครู่",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          },
+        });
+      }
+
+
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API}/api/users/product/video/${id}`,
         {
@@ -252,7 +265,9 @@ export const ShowVideo = ({ id }: { id: number }) => {
           responseType: "blob",
         }
       );
-      // setVideoData(res.data);
+
+      Swal.close()
+
       const videoBlob = new Blob([res.data], { type: "video/mp4" });
       const videoUrl = URL.createObjectURL(videoBlob);
       setVideoData(videoUrl); // สร้าง URL จาก blob และเก็บลง state
@@ -500,8 +515,8 @@ export const QuestionSection = ({
                     <section className="w-full">
                       <p
                         className={`rounded-md px-4 py-1.5 text-center ${item.status === 0
-                            ? "text-red-800 bg-red-100"
-                            : "text-green-800 bg-green-100"
+                          ? "text-red-800 bg-red-100"
+                          : "text-green-800 bg-green-100"
                           }`}
                       >
                         {item.status === 0 ? "รอดำเนินการ" : "เสร็จแล้ว"}

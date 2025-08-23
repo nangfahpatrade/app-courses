@@ -235,13 +235,6 @@ export const VideoSection = ({
 export const ShowVideo = ({ id }: { id: number }) => {
   const [videoData, setVideoData] = useState<any>(null);
 
-  const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY || "your_secret_key";
-
-  const decryptData = (ciphertext: string) => {
-    const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
-    return bytes.toString(CryptoJS.enc.Utf8);
-  };
-
   const fetchData = async () => {
     try {
       if (id) {
@@ -255,7 +248,6 @@ export const ShowVideo = ({ id }: { id: number }) => {
         });
       }
 
-
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API}/api/users/product/video/${id}`,
         {
@@ -265,6 +257,9 @@ export const ShowVideo = ({ id }: { id: number }) => {
           responseType: "blob",
         }
       );
+
+      console.log(res.data);
+      
 
       Swal.close()
 
@@ -282,8 +277,7 @@ export const ShowVideo = ({ id }: { id: number }) => {
 
   return (
     <div>
-      {/* <p>Video ID: {id} </p>
-      <p>Video path: {videoData} </p> */}
+
       {videoData ? (
         <video
           controls

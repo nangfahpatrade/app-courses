@@ -112,9 +112,7 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
       },
     });
 
-
     const formDataToSubmit = new FormData();
-
     formDataToSubmit.append("products_title_id", titleId.toLocaleString());
     if (formData.videoFile) {
       formDataToSubmit.append("video", formData.videoFile);
@@ -123,35 +121,30 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
       formDataToSubmit.append("id", videoId.toLocaleString());
     }
     try {
-      console.log(titleId);
-      console.log(formData.videoFile);
-      console.log(statusEdit);
-      console.log(videoId);
-
+      const headers = {
+        'Authorization': `Bearer ${await authToken()}`,
+      };
       let res;
       if (statusEdit === 0) {
-        console.log("aaa");
         res = await axios.post(
           `${process.env.NEXT_PUBLIC_API}/api/product/add/videos`,
           formDataToSubmit,
-          {
-            ...HeaderMultiAPI(await authToken()),
-          }
+          // {
+          //   ...HeaderMultiAPI(await authToken()),
+          // }
+          { headers }
         );
       } else {
         res = await axios.put(
           `${process.env.NEXT_PUBLIC_API}/api/product/videos`,
           formDataToSubmit,
-          {
-            ...HeaderMultiAPI(await authToken()),
-          }
+          // {
+          //   ...HeaderMultiAPI(await authToken()),
+          // }
+          { headers }
         );
       }
-
-      console.log(res);
-
       if (res.status === 200) {
-
         Swal.fire({
           icon: "success",
           title: "สำเร็จ!",

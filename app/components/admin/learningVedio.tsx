@@ -21,6 +21,7 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import CryptoJS from "crypto-js";
 import { authToken } from "@/app/utils/tools";
+import uploadFileInChunks from "@/app/utils/uploadFileInChunks";
 
 interface Course {
   id: number;
@@ -114,33 +115,47 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
 
     const formDataToSubmit = new FormData();
     formDataToSubmit.append("products_title_id", titleId.toLocaleString());
-    if (formData.videoFile) {
-      formDataToSubmit.append("video", formData.videoFile);
-    }
+    // if (formData.videoFile) {
+    //   formDataToSubmit.append("video", formData.videoFile);
+    // }
     if (videoId != 0) {
       formDataToSubmit.append("id", videoId.toLocaleString());
     }
+    if (formData.videoFile) {
+      try {
+        const videoLocation = await uploadFileInChunks(formData.videoFile);
+        console.log({videoLocation});
+        
+        formDataToSubmit.append('video_url', videoLocation);
+
+      } catch (error) {
+        Swal.fire({
+          icon: "error",
+          title: "เกิดข้อผิดพลาด!",
+          text: "การอัปโหลดวิดีโอล้มเหลว",
+        });
+        console.error(error);
+        setLoad(false);
+        return; 
+      }
+    }
+
     try {
       const headers = {
         'Authorization': `Bearer ${await authToken()}`,
+        'Content-Type': 'application/json'
       };
       let res;
       if (statusEdit === 0) {
         res = await axios.post(
           `${process.env.NEXT_PUBLIC_API}/api/product/add/videos`,
           formDataToSubmit,
-          // {
-          //   ...HeaderMultiAPI(await authToken()),
-          // }
           { headers }
         );
       } else {
         res = await axios.put(
           `${process.env.NEXT_PUBLIC_API}/api/product/videos`,
           formDataToSubmit,
-          // {
-          //   ...HeaderMultiAPI(await authToken()),
-          // }
           { headers }
         );
       }
@@ -168,6 +183,9 @@ const LearningVideo: React.FC<LearningVideoProps> = ({
       setLoad(false)
     }
   };
+
+
+
 
   const resetForm = () => {
     setFormData({

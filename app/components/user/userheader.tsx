@@ -19,7 +19,7 @@ import { toast } from "react-toastify";
 import { authToken } from "@/app/utils/tools";
 
 const navItems = [
-  { href: "/user/shopcourse", label: "เลือกซื้อคอร์สเรียน" },
+  { href: "/user/shopcourse", label: "หน้าหลัก" },
   { href: "/user/mycourse", label: "คอร์สเรียนของฉัน" },
   { href: "/user/myorder", label: "รายการสั่งซื้อของฉัน" },
   { href: "/user/manageprofile", label: "จัดการข้อมูลผู้ใช้" },
@@ -40,7 +40,7 @@ const NavItem: React.FC<NavItemProps> = ({
 }) => {
   let newCurrentPath = "";
 
-  if (currentPath.startsWith("/user/buycourse")) {
+  if (currentPath.startsWith("/user/buycourse") || currentPath.startsWith("/user/study")) {
     newCurrentPath = "/user/shopcourse";
   }
 
@@ -151,7 +151,7 @@ export function UserHeader() {
 
   const navList = useMemo(
     () => (
-      <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+      <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 ">
         {navItems.map((item) => (
           <NavItem
             key={item.href}
@@ -168,7 +168,6 @@ export function UserHeader() {
 
   return (
     <div className="max-h-[768px]  ">
-      {/* <Navbar className="sticky min-w-full top-0 z-10 h-max rounded-none px-4 py-1 lg:px-8" py-1 lg:px-8 2xl:px-[270px] */}
       <Navbar
         className="sticky min-w-full  top-0 z-10 h-max  min-h-[50px]   lg:h-[80px]  rounded-none  "
         style={{

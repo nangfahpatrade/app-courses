@@ -223,7 +223,7 @@ export const VideoSection = ({
               className={`bg-red-800 hover:bg-red-700 text-white px-3 rounded-md flex flex-row gap-2 justify-center items-center `}
               onClick={() => onPlayClick(item.video_id)}
             >
-              <IoPlaySkipBackOutline /> เล่น
+              <IoPlaySkipBackOutline /> เล่น 
             </button>
           </li>
         ))}
@@ -247,25 +247,19 @@ export const ShowVideo = ({ id }: { id: number }) => {
           },
         });
       }
-
       const res = await axios.get(
         `${process.env.NEXT_PUBLIC_API}/api/users/product/video/${id}`,
         {
           headers: {
             Authorization: `Bearer ${await authToken()}`,
           },
-          responseType: "blob",
         }
       );
-
-      console.log(res.data);
-      
-
-      Swal.close()
-
-      const videoBlob = new Blob([res.data], { type: "video/mp4" });
-      const videoUrl = URL.createObjectURL(videoBlob);
-      setVideoData(videoUrl); // สร้าง URL จาก blob และเก็บลง state
+      console.log({ ShowVideo: res.data });
+      if (res.status === 200) {
+        setVideoData(res.data.videoUrl);
+        Swal.close()
+      }
     } catch (error) {
       console.log(error);
     }
@@ -277,18 +271,19 @@ export const ShowVideo = ({ id }: { id: number }) => {
 
   return (
     <div>
-
       {videoData ? (
-        <video
-          controls
-          className="w-full custom-video "
-          controlsList="nodownload"
-          key={videoData}
-          onContextMenu={(e) => e.preventDefault()}
-        >
-          <source src={videoData} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+        <div>
+          <video
+            controls
+            className="w-full custom-video "
+            controlsList="nodownload"
+            key={videoData}
+            onContextMenu={(e) => e.preventDefault()}
+          >
+            <source src={`${videoData}`} type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
       ) : (
         <div className="bg-black lg:h-[400px] rounded-sm">
           <h2 className="text-xl text-gray-400 text-center pt-8">
